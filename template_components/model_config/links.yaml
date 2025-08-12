@@ -1,0 +1,9 @@
+techs:
+  {%- for id, data in links.iterrows() %}
+
+  {{ id }}:
+    from: {{ data.from }}
+    to: {{ data.to }}
+    template: power_lines
+
+  {%- endfor %}

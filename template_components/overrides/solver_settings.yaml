@@ -1,0 +1,25 @@
+overrides:
+  solver_setting_0:
+    config.solve.solver_options:
+      Method: 2
+      Crossover: 0
+      FeasibilityTol: 1e-7
+      OptimalityTol: 1e-7
+      BarConvTol: 1e-7
+      BarHomogeneous: -1
+  solver_setting_1:
+    config.solve.solver_options:
+      Method: 2
+      Crossover: 0
+      FeasibilityTol: 1e-7
+      OptimalityTol: 1e-7
+      BarConvTol: 1e-7
+      BarHomogeneous: 1
+  solver_setting_2:
+    config.solve.solver_options:
+      Method: 2
+      Crossover: 0
+      FeasibilityTol: 1e-6
+      OptimalityTol: 1e-6
+      BarConvTol: 1e-6
+      BarHomogeneous: 1

@@ -1,0 +1,96 @@
+import:
+  - "model_config/techs.yaml"
+  - "model_config/nodes.yaml"
+  - "model_config/links.yaml"
+  - "scenarios_min_cost.yaml"
+  - "overrides/sensitivities_min_cost.yaml"
+  - "overrides/solver_settings.yaml"
+
+config:
+  init:
+    name: min_cost
+    calliope_version: 0.7.0.dev5
+    time_subset: ["2018-01-01", "2018-12-31"]
+
+  build:
+    mode: plan # Choices: plan, operate
+    ensure_feasibility: false # Switching on unmet demand
+    add_math: [
+      "custom_math/fossil_share_cap.yaml",
+      "custom_math/balance_demand.yaml",
+      "custom_math/max_import_share.yaml",
+    ]
+
+  solve:
+    solver: gurobi
+    zero_threshold: 1e-8  # 100 GW * 1e-8 = 1 kW
+    shadow_prices: ["system_balance"] 
+    # solver_options:
+    #   Crossover: 0
+    #   Method: 2
+  
+parameters:
+  objective_cost_weights:
+    data: [1, 0]
+    index: [monetary, emissions]
+    dims: costs
+  # `bigM` sets the scale of unmet demand, which cannot be too high, otherwise the optimisation will not converge
+  bigM: 1e6
+  max_fossil_share: 0.5
+  demand_scaler: 1
+  emission_cost_weights:
+    data: [1, 0, 0]
+    index: [emissions, monetary, non_monetary]
+    dims: costs
+
+data_tables:
+  nodes:
+    data: "tabular-data/scalars/nodes.csv"
+    rows: nodes
+    columns: [parameters]
+  techs:
+    data: "tabular-data/scalars/techs.csv"
+    rows: [nodes,techs]
+    columns: [parameters]
+  links:
+    data: "tabular-data/scalars/links.csv"
+    rows: techs
+    columns: [parameters]
+  flow_cap_min:
+    data: "tabular-data/scalars/flow_cap_min.csv"
+    rows: [nodes, techs]
+    columns: [parameters]
+  flow_cap_max:
+    data: "tabular-data/scalars/flow_cap_max.csv"
+    rows: [nodes, techs]
+    columns: [parameters]
+  demand:
+    data: "tabular-data/timeseries/demand.csv"
+    rows: timesteps
+    columns: [techs, nodes]
+    add_dims:
+      parameters: sink_use_equals
+  wind_onshore:
+    data: "tabular-data/timeseries/wind_onshore.csv"
+    rows: timesteps
+    columns: [techs, nodes]
+    add_dims:
+      parameters: source_use_max
+  wind_offshore:
+    data: "tabular-data/timeseries/wind_offshore.csv"
+    rows: timesteps
+    columns: [techs, nodes]
+    add_dims:
+      parameters: source_use_max
+  pv_rooftop:
+    data: "tabular-data/timeseries/pv_rooftop.csv"
+    rows: timesteps
+    columns: [techs, nodes]
+    add_dims:
+      parameters: source_use_max
+  pv_open_field:
+    data: "tabular-data/timeseries/pv_open_field.csv"
+    rows: timesteps
+    columns: [techs, nodes]
+    add_dims:
+      parameters: source_use_max

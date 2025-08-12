@@ -1,0 +1,12 @@
+module_pv_wind:
+  download_cutout: False
+  backend: atlite
+  layout: raster  # raster or point
+  aggregate: true
+  cutout_params:
+    module: era5
+    x: [-17., 37.]
+    y: [32., 72.]
+    time: ["2018", "2018"]
+    features: ['height', 'wind', 'influx', 'temperature']
+    show_progress: true

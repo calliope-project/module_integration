@@ -1,0 +1,52 @@
+overrides:
+  _base_slack_01:
+    parameters:
+      max_fossil_share: 0.7
+      total_cost_cap: 0
+  _base_slack_05:
+    parameters:
+      max_fossil_share: 0.7
+      total_cost_cap: 0
+  _base_slack_10:
+    parameters:
+      max_fossil_share: 0.7
+      total_cost_cap: 0
+
+  _res_50_slack_01:
+    parameters:
+      max_fossil_share: 0.5
+      total_cost_cap: 0
+  _res_50_slack_05:
+    parameters:
+      max_fossil_share: 0.5
+      total_cost_cap: 0
+  _res_50_slack_10:
+    parameters:
+      max_fossil_share: 0.5
+      total_cost_cap: 0
+  
+  _res_75_slack_01:
+    parameters:
+      max_fossil_share: 0.25
+      total_cost_cap: 0
+  _res_75_slack_05:
+    parameters:
+      max_fossil_share: 0.25
+      total_cost_cap: 0
+  _res_75_slack_10:
+    parameters:
+      max_fossil_share: 0.25
+      total_cost_cap: 0
+
+  _res_90_slack_01:
+    parameters:
+      max_fossil_share: 0.1
+      total_cost_cap: 0
+  _res_90_slack_05:
+    parameters:
+      max_fossil_share: 0.1
+      total_cost_cap: 0
+  _res_90_slack_10:
+    parameters:
+      max_fossil_share: 0.1
+      total_cost_cap: 0

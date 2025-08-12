@@ -1,0 +1,16 @@
+overrides:
+  _base:
+    parameters:
+      max_fossil_share: 0.7
+
+  _res_50:
+    parameters:
+      max_fossil_share: 0.5
+  
+  _res_75:
+    parameters:
+      max_fossil_share: 0.25
+
+  _res_90:
+    parameters:
+      max_fossil_share: 0.1

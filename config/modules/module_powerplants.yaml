@@ -1,0 +1,120 @@
+module_powerplants:
+  projected_crs: "epsg:8857"
+
+  category:
+    bioenergy:
+      technology_mapping:
+        "unknown": "bioenergy_pp"
+
+    fossil:
+      technology_mapping:
+        coal:
+          CFB: "coal_pp"
+          IGCC: "coal_pp"
+          subcritical: "coal_pp"
+          supercritical: "coal_pp"
+          ultra-supercritical: "coal_pp"
+          unknown: "coal_pp"
+        oil_gas:
+          AFC: "gas_pp"
+          ICCC: "gas_pp"
+          IGCC: "gas_pp"
+          ISCC: "gas_pp"
+          combined cycle: "gas_pp"
+          gas turbine: "gas_pp"
+          internal combustion: "gas_pp"
+          steam turbine: "gas_pp"
+          unknown: "gas_pp"
+
+    geothermal:
+      technology_mapping:
+        "advanced geothermal systems (AGS)": "high enthalpy geothermal"
+        "binary cycle": "low enthalpy geothermal"
+        "dry steam": "high enthalpy geothermal"
+        "enhanced geothermal systems (EGS)": "high enthalpy geothermal"
+        "flash steam - double": "low enthalpy geothermal"
+        "flash steam - single": "high enthalpy geothermal"
+        "flash steam - triple": "low enthalpy geothermal"
+        "flash steam - unknown": "high enthalpy geothermal"
+        "geopressured geothermal system (GGS)": "high enthalpy geothermal"
+        "unknown": "high enthalpy geothermal"
+
+    hydropower:
+      technology_mapping:
+        Canal: "run_of_river"
+        PS: "pumped_storage"
+        ROR: "run_of_river"
+        STO: "reservoir"
+        unknown: "reservoir"
+
+    nuclear:
+      technology_mapping:
+        boiling water reactor: "nuclear_reactor"
+        fast breeder reactor: "nuclear_reactor"
+        fast neutron reactor: "nuclear_reactor"
+        gas-cooled reactor: "nuclear_reactor"
+        heavy water gas-cooled reactor: "nuclear_reactor"
+        heavy water light water reactor: "nuclear_reactor"
+        high temperature gas reactor: "nuclear_reactor"
+        liquid-metal-cooled fast reactor: "nuclear_reactor"
+        light water graphite reactor: "nuclear_reactor"
+        molten salt reactor: "nuclear_reactor"
+        pressurized heavy water reactor: "nuclear_reactor"
+        pressurized water reactor: "nuclear_reactor"
+        small modular reactor: "nuclear_reactor"
+        steam-generating heavy water reactor: "nuclear_reactor"
+        unknown: "nuclear_reactor"
+
+    solar:
+      technology_mapping:
+        csp: "csp"
+        rooftop_pv: "pv_rooftop"
+        utility_pv: "pv_open_field"
+      dc_ac_ratio:
+        csp: 1.25
+        utility_pv: 1.25
+
+    wind:
+      source: "wemi" # options: wemi, gem
+      technology_mapping:
+        offshore: "wind_offshore"
+        onshore: "wind_onshore"
+
+  fuel_mapping:
+    "bioenergy: unknown": "biomass"
+    "coal: unknown": "brown coal"
+    "fossil gas: unknown": "natural gas"
+
+  imputation:
+    adjustment_yr: 2023
+    scenario: "near-future" # near-future, far-future, far-off-future
+    lifetime_yr:
+      bioenergy_pp: 25
+      coal_pp: 50
+      csp: 25
+      high enthalpy geothermal: 30
+      low enthalpy geothermal: 30
+      nuclear_reactor: 50
+      wind_offshore: 25
+      wind_onshore: 25
+      pumped_storage: 80
+      gas_pp: 20
+      reservoir: 80
+      pv_rooftop: 5
+      run_of_river: 80
+      pv_open_field: 25
+    retirement_delay_yr:
+      bioenergy_pp: 5
+      coal_pp: 5
+      csp: 2
+      high enthalpy geothermal: 5
+      low enthalpy geothermal: 5
+      nuclear_reactor: 5
+      wind_offshore: 2
+      wind_onshore: 2
+      pumped_storage: 10
+      gas_pp: 5
+      reservoir: 10
+      pv_rooftop: 5
+      run_of_river: 10
+      pv_open_field: 2

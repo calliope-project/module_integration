@@ -1,0 +1,6 @@
+nodes:
+
+  {% for id, data in nodes.iterrows() %}
+  {{ id }}:
+    active: True
+  {% endfor %}
