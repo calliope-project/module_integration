@@ -7,6 +7,7 @@ dependencies:
     - flake8=3.8.3
     - snakemake-minimal=8.18
     # - graphviz=2.50.0
+    - calliope=0.7.0.dev5
     - pandas
     - numpy<2.0.0
     - xlrd
@@ -23,8 +24,5 @@ dependencies:
     - pip:
         - -e ./lib
         - git+https://github.com/jnnr/gregor.git
-        - git+https://github.com/jnnr/calliope.git@feature-allow-node-params-on-links-0.7.0.dev5
-        - -e ../downscaling
-        - -e ../good-plots
 variables:
     SNAKEMAKE_PROFILE: ./profiles/default
