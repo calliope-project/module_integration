@@ -2,13 +2,11 @@ configfile: "config/modules/module_pv_wind.yaml"
 
 module module_pv_wind:
     snakefile:
-        "../../module_pv_wind/workflow/Snakefile"
-
-        # github(
-        #     "calliope-project/module_pv_wind",
-        #     path="workflow/Snakefile",
-        #     tag="cd3c2b4",
-        # )
+        github(
+            "calliope-project/module_pv_wind",
+            path="workflow/Snakefile",
+            branch="feature-module-setup",
+        )
     config: config["module_pv_wind"]
     prefix: "results/module_pv_wind"
 

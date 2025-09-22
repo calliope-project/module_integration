@@ -1,5 +1,6 @@
 name: module_integration
 channels:
+    - conda-forge/label/calliope_dev
     - conda-forge
     - bioconda
 dependencies:
@@ -7,7 +8,7 @@ dependencies:
     - flake8=3.8.3
     - snakemake-minimal=8.18
     # - graphviz=2.50.0
-    - calliope=0.7.0.dev5
+    - calliope=0.7.0dev5
     - pandas
     - numpy<2.0.0
     - xlrd

@@ -42,7 +42,7 @@ module module_geo_boundaries:
         github(
             "calliope-project/module_geo_boundaries",
             path="workflow/Snakefile",
-            tag="main",
+            tag="v0.1.5",
         )
     config:
         config["module_geo_boundaries_NUTS3"]
