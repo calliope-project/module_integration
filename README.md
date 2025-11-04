@@ -8,7 +8,7 @@ post-process the results.
 First, create a new conda environment with the required dependencies:
 
 ```bash
-conda create -f environment.yaml
+conda env create -f environment.yaml
 conda activate module_integration
 ```
 

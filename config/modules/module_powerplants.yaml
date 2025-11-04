@@ -100,7 +100,7 @@ module_powerplants:
       pumped_storage: 80
       gas_pp: 20
       reservoir: 80
-      pv_rooftop: 5
+      pv_rooftop: 25
       run_of_river: 80
       pv_open_field: 25
     retirement_delay_yr:
