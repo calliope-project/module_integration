@@ -2,12 +2,6 @@ module_geo_boundaries_NUTS2:
   crs:
     projected: "epsg:3857"
     geographic: "epsg:4326"
-  # countries:
-  #   MNE:
-  #     subtype: "2"
-  #     source: "nuts"
-  #     resolution: "01M"
-  #     year: 2021
   countries:
     "AUT":
       subtype: "2"
@@ -140,10 +134,10 @@ module_geo_boundaries_NUTS2:
       resolution: "01M"
       year: 2024
     "GBR":
-      subtype: "3"
+      subtype: "2"
       source: "nuts"
       resolution: "01M"
-      year: 2024
+      year: 2021  # In 2024, GBR is missing
     "ALB":
       subtype: "2"
       source: "nuts"
