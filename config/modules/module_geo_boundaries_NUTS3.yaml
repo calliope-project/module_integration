@@ -1,4 +1,5 @@
 module_geo_boundaries_NUTS3:
+  overture_release: "latest"
   crs:
     projected: "epsg:3857"
     geographic: "epsg:4326"
