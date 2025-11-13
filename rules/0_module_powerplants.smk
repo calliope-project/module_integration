@@ -5,7 +5,7 @@ module module_powerplants:
         github(
             "calliope-project/module_powerplants",
             path="workflow/Snakefile",
-            tag="188c771",
+            tag="3384f3557dcd3db7a7e355b1840114ad0d4ad047",
         )
     config: config["module_powerplants"]
     prefix: "results/module_powerplants"
@@ -18,7 +18,7 @@ rule input_shapes_powerplants:
     input:
         "results/prepare/{resolution}/shapes.parquet",
     output:
-        "results/module_powerplants/resources/user/shapes/{resolution}.parquet",
+        "results/module_powerplants/resources/user/{resolution}/shapes.parquet",
     log:
         "results/module_powerplants/logs/input_shapes_{resolution}.log",
     conda:
