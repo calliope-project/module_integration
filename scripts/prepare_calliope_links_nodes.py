@@ -4,7 +4,7 @@ import pycountry
 from lib.data_processing import filter_df
 
 COLS_LINES = [
-    "Line",
+    "name",
     "bus0",
     "bus1",
     "s_nom",
@@ -18,7 +18,7 @@ COLS_LINES = [
 ]
 
 COLS_LINKS = [
-    "Link",
+    "name",
     "bus0",
     "bus1",
     "efficiency",
@@ -96,8 +96,8 @@ def prepare_calliope_links(lines_links):
 
 def prepare_calliope_nodes(buses: pd.DataFrame) -> pd.DataFrame:
     assert buses.crs == "EPSG:4326"
-    nodes = buses[["Bus", "y", "x", "country"]].rename(
-        columns={"Bus": "nodes", "y": "lat", "x": "lon", "country": "country_id"}
+    nodes = buses[["name", "y", "x", "country"]].rename(
+        columns={"name": "nodes", "y": "lat", "x": "lon", "country": "country_id"}
     )
 
     return nodes
