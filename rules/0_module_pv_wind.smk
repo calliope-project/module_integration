@@ -34,13 +34,13 @@ rule input_shapes_to_module_pv_wind:
     message: "Copy the shapes at desired resolution to 'modules_pv_wind'."
     input: "results/prepare/{resolution}/shapes.parquet"
     output:
-        onshore="results/module_pv_wind/resources/user/spatial_units/{resolution}_onshore.geojson",
-        offshore="results/module_pv_wind/resources/user/spatial_units/{resolution}_offshore.geojson"
+        onshore="results/module_pv_wind/resources/user/spatial_units/{resolution}_onshore.parquet",
+        offshore="results/module_pv_wind/resources/user/spatial_units/{resolution}_offshore.parquet"
     run:
         import geopandas as gpd
         gdf = gpd.read_parquet(input[0])
-        gdf.loc[gdf["shape_class"] == "land"].set_index("bus").to_file(output.onshore, driver="GeoJSON")
-        gdf.loc[gdf["shape_class"] == "maritime"].set_index("bus").to_file(output.offshore, driver="GeoJSON")
+        gdf.loc[gdf["shape_class"] == "land"].set_index("bus").to_parquet(output.onshore)
+        gdf.loc[gdf["shape_class"] == "maritime"].set_index("bus").to_parquet(output.offshore)
 
 rule input_tech_specs:
     message: "Copy the tech_specs to 'modules_pv_wind'."
