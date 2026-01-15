@@ -97,7 +97,7 @@ def prepare_calliope_links(lines_links):
 def prepare_calliope_nodes(buses: pd.DataFrame) -> pd.DataFrame:
     assert buses.crs == "EPSG:4326"
     nodes = buses[["name", "y", "x", "country"]].rename(
-        columns={"name": "nodes", "y": "lat", "x": "lon", "country": "country_id"}
+        columns={"name": "nodes", "y": "latitude", "x": "longitude", "country": "country_id"}
     )
 
     return nodes
