@@ -14,39 +14,6 @@ rule prepare_calliope_links_nodes:
     script:
         "../scripts/prepare_calliope_links_nodes.py"
 
-rule copy_outputs_limit_scope:
-    message: "Copy module's outputs to results/prepare."
-    input:
-        "results/module_electricity_grid/{nuts_level}/results/shapes_clean.parquet",
-    output:
-        "results/prepare/{nuts_level}_{spatial_scope}/shapes.parquet",
-    wildcard_constraints:
-        nuts_level="NUTS0|NUTS2|NUTS3"
-    run: 
-        import geopandas as gpd
-        gdf = gpd.read_parquet(input[0])
-        nodes_selected = config["spatial_scope"][wildcards.spatial_scope]
-        gdf = gdf.loc[gdf["bus"].isin(nodes_selected)]
-        gdf.to_parquet(output[0])
-
-rule prepare_calliope_links_nodes_limit_scope:
-    message: "Prepare calliope links and nodes."
-    input:
-        lines="results/module_electricity_grid/{nuts_level}/results/lines_clean.parquet",
-        links="results/module_electricity_grid/{nuts_level}/results/links_clean.parquet",
-        buses="results/module_electricity_grid/{nuts_level}/results/buses_clean.parquet",
-    output:
-        calliope_links="results/prepare/{nuts_level}_{spatial_scope}/links.csv",
-        calliope_nodes="results/prepare/{nuts_level}_{spatial_scope}/nodes.csv",
-        calliope_links_geo="results/prepare/{nuts_level}_{spatial_scope}/links.parquet",
-    wildcard_constraints:
-        nuts_level="NUTS0|NUTS2|NUTS3",
-        spatial_scope=config["spatial_scope"].keys(),
-    params:
-        limit_scope=True
-    script:
-        "../scripts/prepare_calliope_links_nodes.py"
-
 # prepare powerplants brown-field capacities
 rule prepare_flow_cap_min:
     input: 
