@@ -1,15 +1,4 @@
 # prepare electricity grid
-rule copy_outputs:
-    message: "Copy module's outputs to results/prepare."
-    input:
-        "results/module_electricity_grid/{nuts_level}/results/shapes_clean.parquet",
-    output:
-        "results/prepare/{nuts_level}/shapes.parquet",
-    shell: 
-        """
-        cp {input[0]} {output[0]};
-        """
-
 rule prepare_calliope_links_nodes:
     message: "Prepare calliope links and nodes."
     input:
