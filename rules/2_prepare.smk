@@ -1,7 +1,4 @@
-# prepare electricity grid
-
-
-# prepare demands
+# combine demands
 rule combine_demands:
     message: "Combine electricity, heat and transport demand timeseries."
     input:
@@ -18,7 +15,7 @@ rule combine_demands:
     script:
         "../scripts/combine_demands.py"
 
-# prepare the rest
+# combine nodes, area and techs
 rule prepare_nodes_area_techs:
     input:
         nodes="results/prepare/{resolution}/nodes.csv",
