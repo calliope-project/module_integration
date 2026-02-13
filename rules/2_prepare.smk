@@ -19,20 +19,6 @@ rule combine_demands:
         "../scripts/combine_demands.py"
 
 # prepare the rest
-rule prepare_node_link_groups:
-    input:
-        nodes_coarse="results/prepare/{resolution1}/nodes.csv",
-        links_coarse="results/prepare/{resolution1}/links.csv",
-        nodes_fine="results/prepare/{resolution2}/nodes.csv",
-        links_fine="results/prepare/{resolution2}/links.csv",
-    output:
-        node_groups="results/prepare/{resolution2}/node_groups_{resolution2}_to_{resolution1}.csv",
-        link_groups="results/prepare/{resolution2}/link_groups_{resolution2}_to_{resolution1}.csv"
-    wildcard_constraints:
-        resolution1="NUTS0|NUTS2",
-    script: "../scripts/prepare_node_link_groups.py"
-
-
 rule prepare_nodes_area_techs:
     input:
         nodes="results/prepare/{resolution}/nodes.csv",
