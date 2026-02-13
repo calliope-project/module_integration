@@ -5,7 +5,7 @@ module module_pv_wind:
         github(
             "calliope-project/module_pv_wind",
             path="workflow/Snakefile",
-            branch="feature-module-setup",
+            tag="f16dfe3",
         )
     config: config["module_pv_wind"]
     prefix: "results/module_pv_wind"
@@ -50,6 +50,17 @@ rule input_tech_specs:
     wildcard_constraints:
         tech = "wind_offshore_3.6MW|wind_onshore_3MW|pv_rooftop_CSi_S|pv_rooftop_CSi_W|pv_open_field_CSi_S",
     shell: "cp {input} {output}"
+
+rule prepare_capacity_factors_csv:
+    message: "Convert the capacity factors to calliope ready format."
+    input: "results/module_pv_wind/results/era5/{resolution}_{on_or_offshore}/{name_layout}/capacityfactors_{tech}.nc"  # {resolution}/{config['scope']['temporal']['year']}/
+    output: "results/prepare/{resolution}/{on_or_offshore}/{name_layout}/capacityfactors_{tech}.csv"
+    params:
+        zero_tol = config["capacity_factors"]["zero_tol"]
+    wildcard_constraints:
+        on_or_offshore = "onshore|offshore",
+        tech = "wind_offshore_3.6MW|wind_onshore_3MW|pv_rooftop_CSi_S|pv_rooftop_CSi_W|pv_open_field_CSi_S",
+    shell: "python scripts/prepare_capacity_factors_csv.py {input} {wildcards.name_layout} {params.zero_tol} {output}"
 
 rule all_capacity_factors:
     input:

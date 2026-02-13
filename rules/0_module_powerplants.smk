@@ -61,6 +61,16 @@ rule input_potentials_pv_rooftop:
         cp "{input.countries}" "{output.countries}" 2> "{log}"
         """
 
+rule prepare_flow_cap_min:
+    input:
+        expand(
+            "results/module_powerplants/results/{{resolution}}/aggregated/adjusted/{category}.parquet",
+            category=["bioenergy", "fossil", "geothermal", "hydropower", "nuclear", "wind"]
+        )
+    output:
+        "results/prepare/{resolution}/flow_cap_min.csv"
+    script: "../scripts/prepare_flow_cap_min.py"
+
 rule all_powerplants:
     message: "Prepare all powerplants data."
     default_target: True

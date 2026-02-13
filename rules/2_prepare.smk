@@ -1,71 +1,7 @@
 # prepare electricity grid
-rule prepare_calliope_links_nodes:
-    message: "Prepare calliope links and nodes."
-    input:
-        lines="results/module_electricity_grid/{nuts_level}/results/lines_clean.parquet",
-        links="results/module_electricity_grid/{nuts_level}/results/links_clean.parquet",
-        buses="results/module_electricity_grid/{nuts_level}/results/buses_clean.parquet",
-    output:
-        calliope_links="results/prepare/{nuts_level}/links.csv",
-        calliope_nodes="results/prepare/{nuts_level}/nodes.csv",
-        calliope_links_geo="results/prepare/{nuts_level}/links.parquet",
-    params:
-        limit_scope=False
-    script:
-        "../scripts/prepare_calliope_links_nodes.py"
 
-# prepare powerplants brown-field capacities
-rule prepare_flow_cap_min:
-    input: 
-        expand(
-            "results/module_powerplants/results/{{resolution}}/aggregated/adjusted/{category}.parquet",
-            category=["bioenergy", "fossil", "geothermal", "hydropower", "nuclear", "wind"]
-        )
-    output: 
-        "results/prepare/{resolution}/flow_cap_min.csv"
-    script: "../scripts/prepare_flow_cap_min.py"
-
-# prepare area potentials
-rule aggregate_raster_to_poly:
-    input:
-        raster="results/prepare/raster/{dataset}.tif",
-        polygons="results/prepare/{resolution}/shapes.parquet",
-    output: "results/prepare/{resolution}/{dataset}.parquet"
-    shell: "python scripts/aggregate_raster_to_poly.py {input.raster} {input.polygons} {output[0]}"
-
-rule prepare_flow_cap_max:
-    input: 
-        area_potentials_pv_rooftop="results/prepare/{resolution}/area_potential_pv_rooftop.parquet",
-        area_potentials_wind_offshore="results/prepare/{resolution}/area_potential_wind_offshore.parquet",
-        power_density="data/prepare/power_densities/power_densities.csv",
-    output:
-        path_flow_cap_max="results/prepare/{resolution}/flow_cap_max.csv",
-    script: "../scripts/prepare_flow_cap_max.py"
-
-# prepare capacity factors for pv and wind
-rule prepare_capacity_factors_csv:
-    message: "Convert the capacity factors to calliope ready format."
-    input: "results/module_pv_wind/results/era5/{resolution}_{on_or_offshore}/{name_layout}/capacityfactors_{tech}.nc"  # {resolution}/{config['scope']['temporal']['year']}/
-    output: "results/prepare/{resolution}/{on_or_offshore}/{name_layout}/capacityfactors_{tech}.csv"
-    params:
-        zero_tol = config["capacity_factors"]["zero_tol"]
-    wildcard_constraints:
-        on_or_offshore = "onshore|offshore",
-        tech = "wind_offshore_3.6MW|wind_onshore_3MW|pv_rooftop_CSi_S|pv_rooftop_CSi_W|pv_open_field_CSi_S",
-    shell: "python scripts/prepare_capacity_factors_csv.py {input} {wildcards.name_layout} {params.zero_tol} {output}"
 
 # prepare demands
-rule demand_electricity_output:
-    message: "Move into place the electricity demand timeseries."
-    input: "results/module_demand_electricity/results/demand_electricity_{resolution}_MW.parquet"
-    output: "results/prepare/{resolution}/demand_electricity.csv"
-    run:
-        import pandas as pd
-        df = pd.read_parquet(input[0])
-        df.index.name = None
-        df.columns = pd.MultiIndex.from_product([["demand_electricity"], df.columns], names=['techs', 'nodes'])
-        df.to_csv(output[0])
-
 rule combine_demands:
     message: "Combine electricity, heat and transport demand timeseries."
     input:

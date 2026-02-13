@@ -48,6 +48,21 @@ rule copy_outputs:
         cp {input[0]} {output[0]};
         """
 
+rule prepare_calliope_links_nodes:
+    message: "Prepare calliope links and nodes."
+    input:
+        lines="results/module_electricity_grid/{nuts_level}/results/lines_clean.parquet",
+        links="results/module_electricity_grid/{nuts_level}/results/links_clean.parquet",
+        buses="results/module_electricity_grid/{nuts_level}/results/buses_clean.parquet",
+    output:
+        calliope_links="results/prepare/{nuts_level}/links.csv",
+        calliope_nodes="results/prepare/{nuts_level}/nodes.csv",
+        calliope_links_geo="results/prepare/{nuts_level}/links.parquet",
+    params:
+        limit_scope=False
+    script:
+        "../scripts/prepare_calliope_links_nodes.py"
+
 rule all_electricity_grid:
     input:
         expand(

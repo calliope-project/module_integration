@@ -51,19 +51,21 @@ rule area_potentials_all:
     input:
         "results/module_area_potentials/results/NUTS0/area_potential_report.html",
 
-rule copy_area_potentials:
+rule aggregate_raster_to_poly:
     input:
-        "results/module_area_potentials/results/NUTS0/area_potential_{techs}.tif",
+        raster="results/module_area_potentials/results/{resolution}/area_potential_{techs}.tif",
+        polygons="results/prepare/{resolution}/shapes.parquet",
+    output: "results/prepare/{resolution}/area_potential_{techs}.parquet"
+    shell: "python scripts/aggregate_raster_to_poly.py {input.raster} {input.polygons} {output[0]}"
+
+rule prepare_flow_cap_max:
+    input:
+        area_potentials_pv_rooftop="results/prepare/{resolution}/area_potential_pv_rooftop.parquet",
+        area_potentials_wind_offshore="results/prepare/{resolution}/area_potential_wind_offshore.parquet",
+        power_density="data/prepare/power_densities/power_densities.csv",
     output:
-        "results/prepare/raster/area_potential_{techs}.tif"
-    log:
-        "results/module_area_potentials/logs/copy_area_potentials_{techs}.log"
-    conda:
-        "../envs/shell.yaml"
-    shell:
-        """
-        cp "{input}" "{output}"
-        """
+        path_flow_cap_max="results/prepare/{resolution}/flow_cap_max.csv",
+    script: "../scripts/prepare_flow_cap_max.py"
 
 rule all_area_potentials:
     message: "Prepare all area potentials data."
