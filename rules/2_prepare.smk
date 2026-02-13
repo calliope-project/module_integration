@@ -26,6 +26,13 @@ rule prepare_flow_cap_min:
     script: "../scripts/prepare_flow_cap_min.py"
 
 # prepare area potentials
+rule aggregate_raster_to_poly:
+    input:
+        raster="results/prepare/raster/{dataset}.tif",
+        polygons="results/prepare/{resolution}/shapes.parquet",
+    output: "results/prepare/{resolution}/{dataset}.parquet"
+    shell: "python scripts/aggregate_raster_to_poly.py {input.raster} {input.polygons} {output[0]}"
+
 rule prepare_flow_cap_max:
     input: 
         area_potentials_pv_rooftop="results/prepare/{resolution}/area_potential_pv_rooftop.parquet",
@@ -76,13 +83,6 @@ rule combine_demands:
         "../scripts/combine_demands.py"
 
 # prepare the rest
-rule aggregate_raster_to_poly:
-    input: 
-        raster="results/prepare/raster/{dataset}.tif",
-        polygons="results/prepare/{resolution}/shapes.parquet",
-    output: "results/prepare/{resolution}/{dataset}.parquet"
-    shell: "python scripts/aggregate_raster_to_poly.py {input.raster} {input.polygons} {output[0]}"
-
 rule prepare_node_link_groups:
     input:
         nodes_coarse="results/prepare/{resolution1}/nodes.csv",
