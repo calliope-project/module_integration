@@ -16,7 +16,7 @@ def main(capacityfactors, tech, zero_tol, destination):
     zero_tol = float(zero_tol)
 
     df = df.where(df >= zero_tol, 0.0)
-    df.to_csv(destination)
+    df.to_parquet(destination)
 
 
 if __name__ == "__main__":

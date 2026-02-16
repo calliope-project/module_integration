@@ -22,7 +22,7 @@ def create_techs_df(nodes, techs):
 
 
 def main(path_nodes, path_area_onshore, path_area_offshore, path_nodes_area, path_techs):
-    nodes = pd.read_csv(path_nodes)
+    nodes = pd.read_parquet(path_nodes)
     area_onshore = gpd.read_parquet(path_area_onshore).reset_index()
     area_offshore = gpd.read_parquet(path_area_offshore).reset_index()
 
@@ -43,8 +43,8 @@ def main(path_nodes, path_area_onshore, path_area_offshore, path_nodes_area, pat
     techs_df["exists"] = True
 
     # Save results
-    techs_df.to_csv(path_techs, index=False)
-    nodes.to_csv(path_nodes_area, index=False)
+    techs_df.to_parquet(path_techs, index=False)
+    nodes.to_parquet(path_nodes_area, index=False)
 
 
 if __name__ == "__main__":

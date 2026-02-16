@@ -45,13 +45,13 @@ rule copy_token_entsoe:
 rule demand_electricity_output:
     message: "Move into place the electricity demand timeseries."
     input: "results/module_demand_electricity/results/demand_electricity_{resolution}_MW.parquet"
-    output: "results/prepare/{resolution}/demand_electricity.csv"
+    output: "results/prepare/{resolution}/demand_electricity.parquet"
     run:
         import pandas as pd
         df = pd.read_parquet(input[0])
         df.index.name = None
         df.columns = pd.MultiIndex.from_product([["demand_electricity"], df.columns], names=['techs', 'nodes'])
-        df.to_csv(output[0])
+        df.to_parquet(output[0])
 
 rule all_demand_electricity:
     input:

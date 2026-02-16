@@ -64,7 +64,7 @@ rule prepare_flow_cap_max:
         area_potentials_wind_offshore="results/prepare/{resolution}/area_potential_wind_offshore.parquet",
         power_density="data/prepare/power_densities/power_densities.csv",
     output:
-        path_flow_cap_max="results/prepare/{resolution}/flow_cap_max.csv",
+        path_flow_cap_max="results/prepare/{resolution}/flow_cap_max.parquet",
     script: "../scripts/prepare_flow_cap_max.py"
 
 rule all_area_potentials:

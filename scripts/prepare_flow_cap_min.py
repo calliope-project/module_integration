@@ -29,7 +29,7 @@ def prepare_flow_cap_min(df, destination):
     techs = snakemake.config["techs_onshore"] + snakemake.config["techs_offshore"]
     flow_cap_min = flow_cap_min.loc[flow_cap_min["techs"].isin(techs)]
 
-    flow_cap_min.to_csv(destination, index=False)
+    flow_cap_min.to_parquet(destination, index=False)
 
 
 if __name__ == "__main__":

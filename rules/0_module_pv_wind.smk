@@ -51,25 +51,25 @@ rule input_tech_specs:
         tech = "wind_offshore_3.6MW|wind_onshore_3MW|pv_rooftop_CSi_S|pv_rooftop_CSi_W|pv_open_field_CSi_S",
     shell: "cp {input} {output}"
 
-rule prepare_capacity_factors_csv:
-    message: "Convert the capacity factors to calliope ready format."
+rule prepare_capacity_factors:
+    message: "Convert the capacity factors to model format."
     input: "results/module_pv_wind/results/era5/{resolution}_{on_or_offshore}/{name_layout}/capacityfactors_{tech}.nc"  # {resolution}/{config['scope']['temporal']['year']}/
-    output: "results/prepare/{resolution}/{on_or_offshore}/{name_layout}/capacityfactors_{tech}.csv"
+    output: "results/prepare/{resolution}/{on_or_offshore}/{name_layout}/capacityfactors_{tech}.parquet"
     params:
         zero_tol = config["capacity_factors"]["zero_tol"]
     wildcard_constraints:
         on_or_offshore = "onshore|offshore",
         tech = "wind_offshore_3.6MW|wind_onshore_3MW|pv_rooftop_CSi_S|pv_rooftop_CSi_W|pv_open_field_CSi_S",
-    shell: "python scripts/prepare_capacity_factors_csv.py {input} {wildcards.name_layout} {params.zero_tol} {output}"
+    shell: "python scripts/prepare_capacity_factors.py {input} {wildcards.name_layout} {params.zero_tol} {output}"
 
 rule all_capacity_factors:
     input:
         expand(
             [
-                "results/prepare/{resolution}/offshore/wind_offshore/capacityfactors_wind_offshore_3.6MW.csv",
-                "results/prepare/{resolution}/onshore/pv_open_field/capacityfactors_pv_open_field_CSi_S.csv",
-                "results/prepare/{resolution}/onshore/pv_rooftop/capacityfactors_pv_rooftop_CSi_S.csv",
-                "results/prepare/{resolution}/onshore/wind_onshore/capacityfactors_wind_onshore_3MW.csv",
+                "results/prepare/{resolution}/offshore/wind_offshore/capacityfactors_wind_offshore_3.6MW.parquet",
+                "results/prepare/{resolution}/onshore/pv_open_field/capacityfactors_pv_open_field_CSi_S.parquet",
+                "results/prepare/{resolution}/onshore/pv_rooftop/capacityfactors_pv_rooftop_CSi_S.parquet",
+                "results/prepare/{resolution}/onshore/wind_onshore/capacityfactors_wind_onshore_3MW.parquet",
             ],
             resolution=["NUTS0", "NUTS2", "NUTS3"],
         )

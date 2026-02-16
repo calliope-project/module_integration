@@ -14,12 +14,13 @@ def read_yaml(file_path):
 
 
 def read_timeseries(file_path):
-    return pd.read_csv(
+    df = pd.read_parquet(
         file_path,
-        index_col=0,
-        header=[0, 1],
-        parse_dates=True,
     )
+    df.index = pd.to_datetime(df.index)
+    print(df)
+    return df
+
 
 
 def combine_demands(*demands):
@@ -138,7 +139,7 @@ def plot_demand_assumptions(demand_scenarios):
             color=colors[label],
             zorder=2,
         )
-        df_resample = df.resample("24H").mean()
+        df_resample = df.resample("24h").mean()
         ax.plot(
             df_resample.index,
             df_resample,
@@ -157,7 +158,7 @@ def plot_demand_assumptions(demand_scenarios):
         color="grey",
         zorder=2,
     )
-    df_resample = df.resample("24H").mean()
+    df_resample = df.resample("24h").mean()
     ax_ts4.plot(
         df_resample.index,
         df_resample,
@@ -271,8 +272,8 @@ def main(
     # Save demand scenarios
     path_scenarios = Path(path_scenarios)
     for scenario, data in demand_scenarios.items():
-        data["demand_combined_sum"].to_csv(
-            path_scenarios / f"demand_combined_sum_{scenario}.csv"
+        data["demand_combined_sum"].to_parquet(
+            path_scenarios / f"demand_combined_sum_{scenario}.parquet"
         )
 
 

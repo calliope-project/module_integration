@@ -68,7 +68,7 @@ rule prepare_flow_cap_min:
             category=["bioenergy", "fossil", "geothermal", "hydropower", "nuclear", "wind"]
         )
     output:
-        "results/prepare/{resolution}/flow_cap_min.csv"
+        "results/prepare/{resolution}/flow_cap_min.parquet"
     script: "../scripts/prepare_flow_cap_min.py"
 
 rule all_powerplants:

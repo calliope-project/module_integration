@@ -121,5 +121,4 @@ if __name__ == "__main__":
         calliope_links = filter_df(calliope_links, {"from": nodes_selected, "to": nodes_selected})
 
     calliope_links.to_parquet(snakemake.output.calliope_links_geo)
-    calliope_links.drop(columns="geometry").to_csv(snakemake.output.calliope_links, index=False)
-    calliope_nodes.to_csv(snakemake.output.calliope_nodes, index=False)
+    calliope_nodes.to_parquet(snakemake.output.calliope_nodes)
