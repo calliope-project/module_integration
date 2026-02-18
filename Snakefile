@@ -19,6 +19,7 @@ include: "./rules/0_module_powerplants.smk"
 
 # rules
 include: "./rules/2_prepare.smk"
+include: "./rules/2_streamline.smk"
 include: "./rules/3_construct.smk"
 include: "./rules/4_run.smk"
 include: "./rules/5_postprocess.smk"

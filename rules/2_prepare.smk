@@ -24,26 +24,3 @@ rule prepare_nodes_area_techs:
         nodes_area="results/prepare/{resolution}/nodes_area.parquet",
         techs="results/prepare/{resolution}/techs.parquet",
     script: "../scripts/prepare_nodes_area_techs.py"
-
-
-rule apply_scaling_factors:
-    input:
-        demand_combined_sum_base="results/prepare/{resolution}/combined_demands/demand_combined_sum_base.parquet",
-        demand_combined_sum_res_50="results/prepare/{resolution}/combined_demands/demand_combined_sum_res_50.parquet",
-        demand_combined_sum_res_75="results/prepare/{resolution}/combined_demands/demand_combined_sum_res_75.parquet",
-        demand_combined_sum_res_90="results/prepare/{resolution}/combined_demands/demand_combined_sum_res_90.parquet",
-        flow_cap_max="results/prepare/{resolution}/flow_cap_max.parquet",
-        flow_cap_min="results/prepare/{resolution}/flow_cap_min.parquet",
-        links="results/prepare/{resolution}/links.parquet",
-        nodes_area="results/prepare/{resolution}/nodes_area.parquet",
-    output:
-        demand_combined_sum_base="results/prepare/{resolution}/scaled/combined_demands/demand_combined_sum_base.parquet",
-        demand_combined_sum_res_50="results/prepare/{resolution}/scaled/combined_demands/demand_combined_sum_res_50.parquet",
-        demand_combined_sum_res_75="results/prepare/{resolution}/scaled/combined_demands/demand_combined_sum_res_75.parquet",
-        demand_combined_sum_res_90="results/prepare/{resolution}/scaled/combined_demands/demand_combined_sum_res_90.parquet",
-        flow_cap_max="results/prepare/{resolution}/scaled/flow_cap_max.parquet",
-        flow_cap_min="results/prepare/{resolution}/scaled/flow_cap_min.parquet",
-        links="results/prepare/{resolution}/scaled/links.parquet",
-        nodes_area="results/prepare/{resolution}/scaled/nodes_area.parquet",
-    script: "../scripts/apply_scaling_factors.py"
-

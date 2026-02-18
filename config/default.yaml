@@ -256,50 +256,6 @@ scaling-factors:
     monetary: 0.1 # from EUR to 1 billion (1e9) EUR
     distance: 1000 # from km to m (electricity transmission)
 
-scaling:
-  demand_combined_sum_base:
-    header: [0, 1]
-    index_col: 0
-    scaling: power
-
-  demand_combined_sum_res_50:
-    header: [0, 1]
-    index_col: 0
-    scaling: power
-
-  demand_combined_sum_res_75:
-    header: [0, 1]
-    index_col: 0
-    scaling: power
-
-  demand_combined_sum_res_90:
-    header: [0, 1]
-    index_col: 0
-    scaling: power
-
-  flow_cap_max:
-    header: 0
-    index_col: [0, 1]
-    scaling: power
-
-  flow_cap_min:
-    header: 0
-    index_col: [0, 1]
-    scaling: power
-
-  links:
-    header: 0
-    index_col: 0
-    scaling:
-      distance: distance
-      flow_cap_min: power
-
-  nodes_area:
-    header: 0
-    index_col: 0
-    scaling:
-      available_area: area
-
 colors:
   wind_onshore: "#4addee"
   wind_offshore: "#0072B2"
@@ -309,3 +265,39 @@ colors:
   gas_pp: "#D55E00"
   battery_storage: "#009E73"
   demand_electricity: "#CC79A7"
+
+model_files:
+  nodes_area.parquet:
+    schema: Nodes
+    scaling:
+      available_area: area
+  links.parquet:
+    schema: Links
+    scaling:
+      distance: distance
+      flow_cap_min: power
+  techs.parquet:
+    schema: Techs
+  flow_cap_min.parquet:
+    schema: Techs
+    scaling:
+      flow_cap_min: power
+  flow_cap_max.parquet:
+    schema: Techs
+    scaling:
+      flow_cap_max: power
+  combined_demands/demand_combined_sum_base.parquet:
+    schema: NodeTimeSeries
+    scaling: power
+  offshore/wind_offshore/capacityfactors_wind_offshore_3.6MW.parquet:
+    schema: NodeTimeSeries
+    scaling: power
+  onshore/wind_onshore/capacityfactors_wind_onshore_3MW.parquet:
+    schema: NodeTimeSeries
+    scaling: power
+  onshore/pv_open_field/capacityfactors_pv_open_field_CSi_S.parquet:
+    schema: NodeTimeSeries
+    scaling: power
+  onshore/pv_rooftop/capacityfactors_pv_rooftop_CSi_S.parquet:
+    schema: NodeTimeSeries
+    scaling: power
