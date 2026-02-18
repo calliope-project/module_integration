@@ -69,6 +69,8 @@ def main(
     techs = snakemake.config["techs_onshore"] + snakemake.config["techs_offshore"]
     flow_cap_max = flow_cap_max.loc[flow_cap_max["techs"].isin(techs)]
 
+    flow_cap_max = flow_cap_max.reset_index()
+
     flow_cap_max.to_parquet(path_flow_cap_max)
 
 

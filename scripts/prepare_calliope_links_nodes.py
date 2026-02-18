@@ -67,7 +67,7 @@ def prepare_lines_links(lines: pd.DataFrame, links: pd.DataFrame) -> pd.DataFram
 
 def prepare_calliope_links(lines_links):
     calliope_links = lines_links[["bus0_to_bus1", "bus0", "bus1", "geometry"]].rename(
-        columns={"bus0_to_bus1": "techs", "bus0": "from", "bus1": "to"}
+        columns={"bus0_to_bus1": "techs", "bus0": "from_node", "bus1": "to_node"}
     )
     calliope_links["distance"] = lines_links["length"]
     calliope_links.loc[lines_links["component"] == "Line", "flow_cap_min"] = lines_links.loc[
@@ -76,12 +76,12 @@ def prepare_calliope_links(lines_links):
     calliope_links.loc[lines_links["component"] == "Link", "flow_cap_min"] = lines_links.loc[
         lines_links["component"] == "Link", "p_nom"
     ]
-    calliope_links = calliope_links[["techs", "from", "to", "distance", "flow_cap_min", "geometry"]]
+    calliope_links = calliope_links[["techs", "from_node", "to_node", "distance", "flow_cap_min", "geometry"]]
 
     calliope_links = calliope_links.groupby("techs").agg(
         {
-            "from": lambda x: x.iloc[0],
-            "to": lambda x: x.iloc[0],
+            "from_node": lambda x: x.iloc[0],
+            "to_node": lambda x: x.iloc[0],
             "distance": lambda x: x.mean(),
             "flow_cap_min": lambda x: x.sum(),
             "geometry": lambda x: x.iloc[0],
