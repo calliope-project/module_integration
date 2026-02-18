@@ -22,7 +22,7 @@ rule apply_scaling:
 
 
 def get_param(param, wildcards):
-    if param in config["model_files"][wildcards.model_file]:
-        return config["model_files"][wildcards.model_file][param]
-    else:
-        return None
+    if wildcards.model_file not in config["model_files"]:
+        raise ValueError(f"Model file '{wildcards.model_file}' is not described in config.")
+
+    return config["model_files"][wildcards.model_file].get(param, None)
