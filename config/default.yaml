@@ -289,15 +289,20 @@ model_files:
   combined_demands/demand_combined_sum_base.parquet:
     schema: NodeTimeSeries
     scaling: power
+  combined_demands/demand_combined_sum_res_50.parquet:
+    schema: NodeTimeSeries
+    scaling: power
+  combined_demands/demand_combined_sum_res_75.parquet:
+    schema: NodeTimeSeries
+    scaling: power
+  combined_demands/demand_combined_sum_res_90.parquet:
+    schema: NodeTimeSeries
+    scaling: power
   offshore/wind_offshore/capacityfactors_wind_offshore_3.6MW.parquet:
     schema: NodeTimeSeries
-    scaling: power
   onshore/wind_onshore/capacityfactors_wind_onshore_3MW.parquet:
     schema: NodeTimeSeries
-    scaling: power
   onshore/pv_open_field/capacityfactors_pv_open_field_CSi_S.parquet:
     schema: NodeTimeSeries
-    scaling: power
   onshore/pv_rooftop/capacityfactors_pv_rooftop_CSi_S.parquet:
     schema: NodeTimeSeries
-    scaling: power
