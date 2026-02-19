@@ -13,12 +13,15 @@ def read_yaml(file_path):
         return yaml.safe_load(file)
 
 
-def read_timeseries(file_path):
+def read_timeseries(file_path, tech):
     df = pd.read_parquet(
         file_path,
     )
     df.index = pd.to_datetime(df.index)
-    print(df)
+
+    # TODO this can go as soon as the rest of the script can do without multiindex
+    df.columns = pd.MultiIndex.from_product([[tech], df.columns], names=['techs', 'nodes'])
+
     return df
 
 
@@ -258,9 +261,9 @@ def main(
     path_plot,
 ):
 
-    demand_electricity = read_timeseries(path_demand_electricity)  # in MW
-    demand_heat = read_timeseries(path_demand_heat)  # in MW
-    demand_transport = read_timeseries(path_demand_transport)  # in MW
+    demand_electricity = read_timeseries(path_demand_electricity, tech="demand_electricity")  # in MW
+    demand_heat = read_timeseries(path_demand_heat, tech="demand_heat")  # in MW
+    demand_transport = read_timeseries(path_demand_transport, tech="demand_transport")  # in MW
 
     demand_scenarios = create_demand_scenarios(
         demand_heat, demand_electricity, demand_transport
@@ -272,7 +275,11 @@ def main(
     # Save demand scenarios
     path_scenarios = Path(path_scenarios)
     for scenario, data in demand_scenarios.items():
-        data["demand_combined_sum"].to_parquet(
+        df = data["demand_combined_sum"]
+
+        # TODO this can go as soon as the rest of the script can do without multiindex
+        df.columns = df.columns.get_level_values("nodes")
+        df.to_parquet(
             path_scenarios / f"demand_combined_sum_{scenario}.parquet"
         )
 

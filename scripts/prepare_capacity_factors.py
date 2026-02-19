@@ -5,17 +5,13 @@ import argparse
 
 def main(capacityfactors, tech, zero_tol, destination):
     capacityfactors = xr.load_dataarray(capacityfactors)
-    df = capacityfactors.to_dataframe(name=tech)
+    df = capacityfactors.to_series()
     df = df.unstack(df.index.names[1])
-
-    df.columns = df.columns.rename("techs", level=0)
-    df.columns = df.columns.rename("nodes", level=1)
-    df.index.name = None
 
     # set values smaller than zero_tol to zero
     zero_tol = float(zero_tol)
-
     df = df.where(df >= zero_tol, 0.0)
+
     df.to_parquet(destination)
 
 
