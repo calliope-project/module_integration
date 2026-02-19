@@ -1,6 +1,6 @@
 import pandas as pd
 from pandera.pandas import DataFrameModel, Field, dataframe_check
-from pandera.typing import Series
+from pandera.typing import Series, Index
 from typing import Optional
 import re
 
@@ -53,8 +53,5 @@ class NodeTimeSeries(DataFrameModel):
     """
     Schema for time series defined on nodes.
     """
-    timesteps: Series[pd.Timestamp] = Field()
-    nodes: Series[str] = Field()
-    techs: Series[str] = Field()
-    carriers: Optional[Series[str]] = Field(nullable=True)
-
+    # index
+    timesteps: Index[pd.Timestamp] = Field()
