@@ -28,8 +28,7 @@ if __name__ == "__main__":
 
     warnings = False
 
-    for model_file in snakemake.config["model_files"]:
-        file = model_file["file"]
+    for file, model_file in snakemake.config["model_files"].items():
         file_path = Path(snakemake.params.base_path) / file
         schema = model_file["schema"]
 
