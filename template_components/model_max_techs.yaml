@@ -67,30 +67,35 @@ data_tables:
   demand:
     data: "tabular-data/timeseries/demand.csv"
     rows: timesteps
-    columns: [techs, nodes]
+    columns: nodes
     add_dims:
       parameters: sink_use_equals
+      techs: demand_electricity
   wind_onshore:
     data: "tabular-data/timeseries/wind_onshore.csv"
     rows: timesteps
-    columns: [techs, nodes]
+    columns: nodes
     add_dims:
       parameters: source_use_max
+      techs: wind_onshore
   wind_offshore:
     data: "tabular-data/timeseries/wind_offshore.csv"
     rows: timesteps
-    columns: [techs, nodes]
+    columns: nodes
     add_dims:
       parameters: source_use_max
+      techs: wind_offshore
   pv_rooftop:
     data: "tabular-data/timeseries/pv_rooftop.csv"
     rows: timesteps
-    columns: [techs, nodes]
+    columns: nodes
     add_dims:
       parameters: source_use_max
+      techs: pv_rooftop
   pv_open_field:
     data: "tabular-data/timeseries/pv_open_field.csv"
     rows: timesteps
-    columns: [techs, nodes]
+    columns: nodes
     add_dims:
       parameters: source_use_max
+      techs: pv_open_field
