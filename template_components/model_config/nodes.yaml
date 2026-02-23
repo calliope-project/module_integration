@@ -1,6 +1,6 @@
 nodes:
 
   {% for id, data in nodes.iterrows() %}
-  {{ id }}:
+  {{ data.nodes }}:
     active: True
   {% endfor %}
