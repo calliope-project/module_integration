@@ -56,7 +56,8 @@ rule prepare_calliope_links_nodes:
         buses="results/module_electricity_grid/{nuts_level}/results/buses_clean.parquet",
     output:
         calliope_nodes="results/prepare/{nuts_level}/nodes.parquet",
-        calliope_links_geo="results/prepare/{nuts_level}/links.parquet",
+        calliope_links="results/prepare/{nuts_level}/links.parquet",
+        calliope_links_geo="results/prepare/{nuts_level}/links_geometries.parquet",
     params:
         limit_scope=False
     script:
