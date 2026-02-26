@@ -63,10 +63,12 @@ rule input_potentials_pv_rooftop:
 
 rule prepare_flow_cap_min:
     input:
-        expand(
+        categories=expand(
             "results/module_powerplants/results/{{resolution}}/aggregated/adjusted/{category}.parquet",
             category=["bioenergy", "fossil", "geothermal", "hydropower", "nuclear", "wind"]
-        )
+        ),
+        map_shapes_to_nodes="results/module_electricity_grid/{resolution}/results/map_shapes_to_nodes.parquet",
+        shapes="results/prepare/{resolution}/shapes.parquet",
     output:
         "results/prepare/{resolution}/flow_cap_min.parquet"
     script: "../scripts/prepare_flow_cap_min.py"
