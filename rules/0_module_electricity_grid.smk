@@ -4,10 +4,11 @@ NUTS_LEVELS = ["NUTS0", "NUTS2", "NUTS3"]
 
 module module_electricity_grid:
     snakefile:
+        # "../../module_electricity_grid/workflow/Snakefile"
         github(
             "calliope-project/module_electricity_grid",
             path="workflow/Snakefile",
-            tag="43f9d54"
+            tag="9260841"
         )
     config: config["module_electricity_grid"]
     prefix: "results/module_electricity_grid/{nuts_level}"
@@ -47,19 +48,6 @@ rule copy_outputs:
         """
         cp {input[0]} {output[0]};
         """
-
-rule prepare_map_shapes_to_nodes:
-    # TODO: This will be done in module_electricity_grid in the future.
-    message: "Prepare shapes-to-nodes mapping."
-    input:
-        shapes="results/module_electricity_grid/{nuts_level}/results/shapes_clean.parquet",
-    output:
-        map_shapes_to_nodes="results/module_electricity_grid/{nuts_level}/results/map_shapes_to_nodes.parquet",
-    run:
-        import geopandas as gpd
-        shapes = gpd.read_parquet(input.shapes)
-        map_shapes_to_nodes = shapes[["shape_id", "bus"]]
-        map_shapes_to_nodes.to_parquet(output.map_shapes_to_nodes)
 
 rule prepare_calliope_links_nodes:
     message: "Prepare calliope links and nodes."
