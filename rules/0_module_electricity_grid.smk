@@ -48,6 +48,19 @@ rule copy_outputs:
         cp {input[0]} {output[0]};
         """
 
+rule prepare_map_shapes_to_nodes:
+    # TODO: This will be done in module_electricity_grid in the future.
+    message: "Prepare shapes-to-nodes mapping."
+    input:
+        shapes="results/module_electricity_grid/{nuts_level}/results/shapes_clean.parquet",
+    output:
+        map_shapes_to_nodes="results/module_electricity_grid/{nuts_level}/results/map_shapes_to_nodes.parquet",
+    run:
+        import geopandas as gpd
+        shapes = gpd.read_parquet(input.shapes)
+        map_shapes_to_nodes = shapes[["shape_id", "bus"]]
+        map_shapes_to_nodes.to_parquet(output.map_shapes_to_nodes)
+
 rule prepare_calliope_links_nodes:
     message: "Prepare calliope links and nodes."
     input:
