@@ -7,6 +7,7 @@ def main(capacityfactors, tech, zero_tol, destination):
     capacityfactors = xr.load_dataarray(capacityfactors)
     df = capacityfactors.to_series()
     df = df.unstack(df.index.names[1])
+    df.index.name = "timesteps"
 
     # set values smaller than zero_tol to zero
     zero_tol = float(zero_tol)
