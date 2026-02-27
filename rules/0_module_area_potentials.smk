@@ -55,17 +55,28 @@ rule aggregate_raster_to_poly:
     input:
         raster="results/module_area_potentials/results/{resolution}/area_potential_{techs}.tif",
         polygons="results/prepare/{resolution}/shapes.parquet",
-    output: "results/prepare/{resolution}/area_potential_{techs}.parquet"
+    output: "results/prepare/{resolution}/area_potentials/area_potential_{techs}.parquet"
     shell: "python scripts/aggregate_raster_to_poly.py {input.raster} {input.polygons} {output[0]}"
 
-rule prepare_flow_cap_max:
+rule prepare_power_potential:
     input:
-        area_potentials_pv_rooftop="results/prepare/{resolution}/area_potential_pv_rooftop.parquet",
-        area_potentials_wind_offshore="results/prepare/{resolution}/area_potential_wind_offshore.parquet",
-        power_density="data/prepare/power_densities/power_densities.csv",
+        area_potential="results/prepare/{resolution}/area_potentials/area_potential_{tech}.parquet",
+        power_densities="data/prepare/power_densities/power_densities.csv",
+        shapes="results/prepare/{resolution}/shapes.parquet",
+        map_shapes_to_nodes="results/module_electricity_grid/{resolution}/results/map_shapes_to_nodes.parquet",
     output:
-        path_flow_cap_max="results/prepare/{resolution}/flow_cap_max.parquet",
-    script: "../scripts/prepare_flow_cap_max.py"
+       "results/prepare/{resolution}/power_potentials/power_potential_{tech}.parquet",
+    script: "../scripts/prepare_power_potential.py"
+
+rule combine_power_potentials:
+    input:
+        expand(
+            "results/prepare/{{resolution}}/power_potentials/power_potential_{tech}.parquet",
+            tech=["pv_rooftop", "pv_open_field", "wind_onshore", "wind_offshore"]
+        )
+    output:
+        "results/prepare/{resolution}/power_potentials_combined.parquet",
+    script: "../scripts/combine_power_potentials.py"
 
 rule all_area_potentials:
     message: "Prepare all area potentials data."

@@ -3,25 +3,10 @@ import geopandas as gpd
 from pathlib import Path
 import logging
 
-from lib.data_processing import map_values
+from lib.data_processing import ShapeTechMatcher, map_values
+
 
 logger = logging.getLogger(__name__)
-
-
-class ShapeTechMatcher:
-    def __init__(self, shapes: gpd.GeoDataFrame, techs_land: list[str], techs_maritime: list[str]):
-        self.shapes = shapes
-        self.techs = dict(
-            land=techs_land,
-            maritime=techs_maritime,
-        )
-
-    def shape_matches_tech(self, shape_id, tech):
-        shape_class = self.shapes.loc[self.shapes["shape_id"] == shape_id, "shape_class"]
-        assert len(shape_class) == 1
-        shape_class = shape_class.iloc[0]
-        matches = tech in self.techs[shape_class]
-        return matches
 
 
 def prepare_powerplants(df, techs_land, techs_maritime, map_shapes_to_nodes, rename_columns, destination):

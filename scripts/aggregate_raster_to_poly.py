@@ -4,14 +4,14 @@ import geopandas as gpd
 import rioxarray as rxr
 
 
-def main(raster, polygons, output):
-    NODATA = -1
-    raster_data = rxr.open_rasterio(raster, nodata=NODATA, masked=True).sel(band=1)
+def main(raster, polygons, output, nodata=-1):
+    raster_data = rxr.open_rasterio(raster, nodata=nodata, masked=True).sel(band=1)
     gdf_polygons = gpd.read_parquet(polygons)
     gdf_polygons = gdf_polygons.set_index("shape_id")
     gdf_polygons = gdf_polygons["geometry"]
 
     result = gregor.aggregate.aggregate_raster_to_polygon(raster_data, gdf_polygons)
+    result = result.reset_index()
     result.to_parquet(output)
 
 

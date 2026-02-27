@@ -1,4 +1,21 @@
 import pandas as pd
+import geopandas as gpd
+
+
+class ShapeTechMatcher:
+    def __init__(self, shapes: gpd.GeoDataFrame, techs_land: list[str], techs_maritime: list[str]):
+        self.shapes = shapes
+        self.techs = dict(
+            land=techs_land,
+            maritime=techs_maritime,
+        )
+
+    def shape_matches_tech(self, shape_id, tech):
+        shape_class = self.shapes.loc[self.shapes["shape_id"] == shape_id, "shape_class"]
+        assert len(shape_class) == 1
+        shape_class = shape_class.iloc[0]
+        matches = tech in self.techs[shape_class]
+        return matches
 
 
 def map_values(data: pd.Series | pd.DataFrame, mapping: dict, column=None) -> pd.Series | pd.DataFrame:

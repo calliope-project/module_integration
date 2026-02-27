@@ -1,5 +1,5 @@
 from pandera.pandas import DataFrameModel, Field
-from pandera.typing import Series, Index
+from pandera.typing import Series
 import geopandas as gpd
 
 
@@ -7,7 +7,7 @@ class AreaPotential(DataFrameModel):
     class Config:
         coerce = True
 
-    shape_id: Index[str] = Field(description="Unique identifier for the area")
+    shape_id: Series[str] = Field(description="Unique identifier for the area")
     sum: Series[float] = Field(description="Total area in square meters", nullable=True)
     geometry: Series[gpd.array.GeometryDtype] = Field(
         description="Geometry of the area in WKT format"
