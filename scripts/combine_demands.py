@@ -18,6 +18,7 @@ def read_timeseries(file_path, tech):
         file_path,
     )
     df.index = pd.to_datetime(df.index)
+    df.index.name = "timesteps"
 
     # TODO this can go as soon as the rest of the script can do without multiindex
     df.columns = pd.MultiIndex.from_product([[tech], df.columns], names=['techs', 'nodes'])

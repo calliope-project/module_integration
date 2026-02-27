@@ -2,7 +2,7 @@
 rule combine_demands:
     message: "Combine electricity, heat and transport demand timeseries."
     input:
-        demand_electricity="results/module_demand_electricity/results/demand_electricity_{resolution}_MW.parquet",
+        demand_electricity="results/prepare/{resolution}/demand_electricity_MW.parquet",
         demand_heat="data/module_demand_heat/{resolution}/demand_heat_profiles_MW.parquet",
         demand_transport="data/module_demand_transport/{resolution}/demand_profiles_total_MW.parquet",
     output:

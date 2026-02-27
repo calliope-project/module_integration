@@ -1,12 +1,22 @@
 import pandas as pd
 
 
+def map_values(data: pd.Series | pd.DataFrame, mapping: dict, column=None) -> pd.Series | pd.DataFrame:
+    data_mapped = data.copy()
+    if column is not None:
+        data_mapped[column] = data_mapped[column].replace(mapping)
+    else:
+        data_mapped = data_mapped.replace(mapping)
+    return data_mapped
 
 
-
-
-def apply_mapping(data: pd.Series | pd.DataFrame, mapping: dict) -> pd.Series | pd.DataFrame:
-    return data.replace(mapping)
+def map_index(data: pd.Series | pd.DataFrame, mapping: dict, axis=1) -> pd.Series | pd.DataFrame:
+    data_mapped = data.copy()
+    if axis == 1:
+        data_mapped = data_mapped.rename(columns=mapping)
+    elif axis == 0:
+        data_mapped = data_mapped.rename(index=mapping)
+    return data_mapped
 
 
 def df_equals(df, column, equals):

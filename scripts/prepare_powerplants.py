@@ -3,6 +3,8 @@ import geopandas as gpd
 from pathlib import Path
 import logging
 
+from lib.data_processing import map_values
+
 logger = logging.getLogger(__name__)
 
 
@@ -22,12 +24,6 @@ class ShapeTechMatcher:
         return matches
 
 
-def shapes_to_nodes(df, mapping):
-    df.loc[:, ["shape_id"]] = df.loc[:, ["shape_id"]].replace(mapping)
-    df = df.rename(columns={"shape_id": "nodes"})
-    return df
-
-
 def prepare_powerplants(df, techs_land, techs_maritime, map_shapes_to_nodes, rename_columns, destination):
     # rename variables
     df = df.rename(columns=rename_columns)
@@ -39,7 +35,8 @@ def prepare_powerplants(df, techs_land, techs_maritime, map_shapes_to_nodes, ren
 
     # map shapes to nodes
     mapping = dict(map_shapes_to_nodes.set_index("shape_id")["nodes"])
-    df = shapes_to_nodes(df, mapping)
+    df = map_values(df, mapping, column="shape_id")
+    df = df.rename(columns={"shape_id": "nodes"})
 
     df = df.loc[:, ["nodes"] + list(rename_columns.values())]
     df = df.reset_index(drop=True)
