@@ -61,7 +61,7 @@ rule input_potentials_pv_rooftop:
         cp "{input.countries}" "{output.countries}" 2> "{log}"
         """
 
-rule prepare_flow_cap_min:
+rule prepare_powerplants:
     input:
         categories=expand(
             "results/module_powerplants/results/{{resolution}}/aggregated/adjusted/{category}.parquet",
@@ -71,7 +71,7 @@ rule prepare_flow_cap_min:
         shapes="results/prepare/{resolution}/shapes.parquet",
     output:
         "results/prepare/{resolution}/flow_cap_min.parquet"
-    script: "../scripts/prepare_flow_cap_min.py"
+    script: "../scripts/prepare_powerplants.py"
 
 rule all_powerplants:
     message: "Prepare all powerplants data."

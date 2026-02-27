@@ -6,12 +6,6 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-COLUMNS = {
-    "technology": "techs",
-    "output_capacity_mw": "flow_cap_min",
-}
-
-
 class ShapeTechMatcher:
     def __init__(self, shapes: gpd.GeoDataFrame, techs_land: list[str], techs_maritime: list[str]):
         self.shapes = shapes
@@ -34,9 +28,9 @@ def shapes_to_nodes(df, mapping):
     return df
 
 
-def prepare_flow_cap_min(df, techs_land, techs_maritime, map_shapes_to_nodes, destination):
+def prepare_powerplants(df, techs_land, techs_maritime, map_shapes_to_nodes, rename_columns, destination):
     # rename variables
-    df = df.rename(columns=COLUMNS)
+    df = df.rename(columns=rename_columns)
     
     # select shape_class that matches for tech
     matcher = ShapeTechMatcher(shapes, techs_land, techs_maritime)
@@ -47,7 +41,7 @@ def prepare_flow_cap_min(df, techs_land, techs_maritime, map_shapes_to_nodes, de
     mapping = dict(map_shapes_to_nodes.set_index("shape_id")["nodes"])
     df = shapes_to_nodes(df, mapping)
 
-    df = df.loc[:, ["nodes"] + list(COLUMNS.values())]
+    df = df.loc[:, ["nodes"] + list(rename_columns.values())]
     df = df.reset_index(drop=True)
 
     df.to_parquet(destination, index=False)
@@ -66,11 +60,13 @@ if __name__ == "__main__":
     techs_maritime = snakemake.config["techs_offshore"]
     shapes = gpd.read_parquet(snakemake.input.shapes)
     map_shapes_to_nodes = pd.read_parquet(snakemake.input.map_shapes_to_nodes)
+    rename_columns = snakemake.config["powerplants"]["rename_columns"]
 
-    prepare_flow_cap_min(
+    prepare_powerplants(
         dfs,
-        techs_land,
-        techs_maritime,
-        map_shapes_to_nodes,
-        snakemake.output[0]
+        techs_land=techs_land,
+        techs_maritime=techs_maritime,
+        map_shapes_to_nodes=map_shapes_to_nodes,
+        rename_columns=rename_columns,
+        destination=snakemake.output[0],
     )

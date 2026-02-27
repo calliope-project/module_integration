@@ -35,6 +35,10 @@ splits:
     ESP_PRT: ["ESP", "PRT"]
     BGR: ["BGR"]
 
+powerplants:
+  rename_columns:
+    technology: techs
+    output_capacity_mw: flow_cap_min
 
 techs_onshore:
  - gas_pp
