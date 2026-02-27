@@ -63,15 +63,22 @@ rule input_potentials_pv_rooftop:
 
 rule prepare_powerplants:
     input:
-        categories=expand(
-            "results/module_powerplants/results/{{resolution}}/aggregated/adjusted/{category}.parquet",
-            category=["bioenergy", "fossil", "geothermal", "hydropower", "nuclear", "wind"]
-        ),
+        data="results/module_powerplants/results/{resolution}/aggregated/adjusted/{category}.parquet",
         map_shapes_to_nodes="results/module_electricity_grid/{resolution}/results/map_shapes_to_nodes.parquet",
         shapes="results/prepare/{resolution}/shapes.parquet",
     output:
-        "results/prepare/{resolution}/flow_cap_min.parquet"
+        "results/prepare/{resolution}/powerplants/powerplants_{category}.parquet"
     script: "../scripts/prepare_powerplants.py"
+
+rule combine_powerplants:
+    input:
+        categories=expand(
+            "results/prepare/{{resolution}}/powerplants/powerplants_{category}.parquet",
+            category=["bioenergy", "fossil", "geothermal", "hydropower", "nuclear", "wind"]
+        ),
+    output:
+        "results/prepare/{resolution}/powerplants_combined.parquet"
+    script: "../scripts/combine_powerplants.py"
 
 rule all_powerplants:
     message: "Prepare all powerplants data."

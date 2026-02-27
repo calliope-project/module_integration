@@ -48,14 +48,7 @@ def prepare_powerplants(df, techs_land, techs_maritime, map_shapes_to_nodes, ren
 
 
 if __name__ == "__main__":
-    dfs = []
-    for path in snakemake.input.categories:
-        logger.info(f"Processing file: {path}")
-        df = pd.read_parquet(path)
-        dfs.append(df)
-
-    dfs = pd.concat(dfs, ignore_index=True)
-    
+    df = pd.read_parquet(snakemake.input.data)
     techs_land = snakemake.config["techs_onshore"]
     techs_maritime = snakemake.config["techs_offshore"]
     shapes = gpd.read_parquet(snakemake.input.shapes)
@@ -63,7 +56,7 @@ if __name__ == "__main__":
     rename_columns = snakemake.config["powerplants"]["rename_columns"]
 
     prepare_powerplants(
-        dfs,
+        df,
         techs_land=techs_land,
         techs_maritime=techs_maritime,
         map_shapes_to_nodes=map_shapes_to_nodes,
