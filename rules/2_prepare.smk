@@ -14,13 +14,12 @@ rule combine_demands:
         plot="results/prepare/{resolution}/combined_demands/demand_assumptions.png",
     script: "../scripts/combine_demands.py"
 
-# combine nodes, area and techs
-rule prepare_nodes_area_techs:
+# prepare techs definition
+rule prepare_techs:
     input:
         nodes="results/prepare/{resolution}/nodes.parquet",
-        area_onshore="results/prepare/{resolution}/area_potential_wind_onshore.parquet",
-        area_offshore="results/prepare/{resolution}/area_potential_wind_offshore.parquet",
+        shapes="results/prepare/{resolution}/shapes.parquet",
+        map_shapes_to_nodes="results/module_electricity_grid/{resolution}/results/map_shapes_to_nodes.parquet",
     output:
-        nodes_area="results/prepare/{resolution}/nodes_area.parquet",
         techs="results/prepare/{resolution}/techs.parquet",
-    script: "../scripts/prepare_nodes_area_techs.py"
+    script: "../scripts/prepare_techs.py"
