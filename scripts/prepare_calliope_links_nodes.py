@@ -5,8 +5,8 @@ from lib.data_processing import filter_df
 
 COLS_LINES = [
     "name",
-    "bus0",
-    "bus1",
+    "node_from",
+    "node_to",
     "s_nom",
     "capital_cost",
     "build_year",
@@ -19,8 +19,8 @@ COLS_LINES = [
 
 COLS_LINKS = [
     "name",
-    "bus0",
-    "bus1",
+    "node_from",
+    "node_to",
     "efficiency",
     "build_year",
     "lifetime",
@@ -36,10 +36,10 @@ COLS_LINKS = [
 ]
 
 
-def order_buses(row: pd.Series) -> pd.Series:
-    """Order buses so that bus0 is alphabetically first."""
-    if row["bus0"] > row["bus1"]:
-        row["bus0"], row["bus1"] = row["bus1"], row["bus0"]
+def order_nodes(row: pd.Series) -> pd.Series:
+    """Order nodes so that node_from is alphabetically first."""
+    if row["node_from"] > row["node_to"]:
+        row["node_from"], row["node_to"] = row["node_to"], row["node_from"]
     return row
 
 
@@ -58,16 +58,16 @@ def prepare_lines_links(lines: pd.DataFrame, links: pd.DataFrame) -> pd.DataFram
         crs=lines.crs,
     )
 
-    combined_df = combined_df.apply(order_buses, axis=1)
+    combined_df = combined_df.apply(order_nodes, axis=1)
 
-    combined_df["bus0_to_bus1"] = combined_df.apply(lambda x: f"{x['bus0']}_to_{x['bus1']}", axis=1)
+    combined_df["node_from_to_node_to"] = combined_df.apply(lambda x: f"{x['node_from']}_to_{x['node_to']}", axis=1)
 
     return combined_df
 
 
 def prepare_calliope_links(lines_links):
-    calliope_links = lines_links[["bus0_to_bus1", "bus0", "bus1", "geometry"]].rename(
-        columns={"bus0_to_bus1": "techs", "bus0": "from_node", "bus1": "to_node"}
+    calliope_links = lines_links[["node_from_to_node_to", "node_from", "node_to", "geometry"]].rename(
+        columns={"node_from_to_node_to": "techs", "node_from": "link_from", "node_to": "link_to"}
     )
     calliope_links["distance"] = lines_links["length"]
     calliope_links.loc[lines_links["component"] == "Line", "flow_cap_min"] = lines_links.loc[
@@ -76,12 +76,12 @@ def prepare_calliope_links(lines_links):
     calliope_links.loc[lines_links["component"] == "Link", "flow_cap_min"] = lines_links.loc[
         lines_links["component"] == "Link", "p_nom"
     ]
-    calliope_links = calliope_links[["techs", "from_node", "to_node", "distance", "flow_cap_min", "geometry"]]
+    calliope_links = calliope_links[["techs", "link_from", "link_to", "distance", "flow_cap_min", "geometry"]]
 
     calliope_links = calliope_links.groupby("techs").agg(
         {
-            "from_node": lambda x: x.iloc[0],
-            "to_node": lambda x: x.iloc[0],
+            "link_from": lambda x: x.iloc[0],
+            "link_to": lambda x: x.iloc[0],
             "distance": lambda x: x.mean(),
             "flow_cap_min": lambda x: x.sum(),
             "geometry": lambda x: x.iloc[0],
@@ -118,7 +118,7 @@ if __name__ == "__main__":
         config = snakemake.config
         nodes_selected = config["spatial_scope"][snakemake.wildcards.spatial_scope]
         calliope_nodes = filter_df(calliope_nodes, {"nodes": nodes_selected})
-        calliope_links = filter_df(calliope_links, {"from": nodes_selected, "to": nodes_selected})
+        calliope_links = filter_df(calliope_links, {"link_from": nodes_selected, "link_to": nodes_selected})
 
     calliope_links.drop(columns="geometry").to_parquet(snakemake.output.calliope_links)
     calliope_links.to_parquet(snakemake.output.calliope_links_geo)

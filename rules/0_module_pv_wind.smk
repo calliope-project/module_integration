@@ -39,8 +39,8 @@ rule input_shapes_to_module_pv_wind:
     run:
         import geopandas as gpd
         gdf = gpd.read_parquet(input[0])
-        gdf.loc[gdf["shape_class"] == "land"].set_index("bus").to_parquet(output.onshore)
-        gdf.loc[gdf["shape_class"] == "maritime"].set_index("bus").to_parquet(output.offshore)
+        gdf.loc[gdf["shape_class"] == "land"].to_parquet(output.onshore)
+        gdf.loc[gdf["shape_class"] == "maritime"].to_parquet(output.offshore)
 
 rule input_tech_specs:
     message: "Copy the tech_specs to 'modules_pv_wind'."

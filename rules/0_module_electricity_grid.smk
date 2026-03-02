@@ -54,7 +54,7 @@ rule prepare_calliope_links_nodes:
     input:
         lines="results/module_electricity_grid/{nuts_level}/results/lines_clean.parquet",
         links="results/module_electricity_grid/{nuts_level}/results/links_clean.parquet",
-        buses="results/module_electricity_grid/{nuts_level}/results/buses_clean.parquet",
+        buses="results/module_electricity_grid/{nuts_level}/results/nodes_clean.parquet",
     output:
         calliope_nodes="results/prepare/{nuts_level}/nodes.parquet",
         calliope_links="results/prepare/{nuts_level}/links.parquet",
