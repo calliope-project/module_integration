@@ -65,8 +65,6 @@ def main(
     power_potential = map_values(power_potential, map_shapes_to_nodes, column="shape_id")
     power_potential = power_potential.rename(columns={"shape_id": "nodes"})
 
-    power_potential = power_potential.reset_index()
-
     power_potential.to_parquet(destination)
 
 
