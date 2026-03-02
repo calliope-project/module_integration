@@ -53,14 +53,16 @@ rule input_tech_specs:
 
 rule prepare_capacity_factors:
     message: "Convert the capacity factors to model format."
-    input: "results/module_pv_wind/results/era5/{resolution}_{on_or_offshore}/{name_layout}/capacityfactors_{tech}.nc"  # {resolution}/{config['scope']['temporal']['year']}/
+    input: 
+        cf="results/module_pv_wind/results/era5/{resolution}_{on_or_offshore}/{name_layout}/capacityfactors_{tech}.nc",  # {resolution}/{config['scope']['temporal']['year']}/
+        map_shapes_to_nodes="results/module_electricity_grid/{resolution}/results/map_shapes_to_nodes.parquet",
     output: "results/prepare/{resolution}/{on_or_offshore}/{name_layout}/capacityfactors_{tech}.parquet"
     params:
         zero_tol = config["capacity_factors"]["zero_tol"]
     wildcard_constraints:
         on_or_offshore = "onshore|offshore",
         tech = "wind_offshore_3.6MW|wind_onshore_3MW|pv_rooftop_CSi_S|pv_rooftop_CSi_W|pv_open_field_CSi_S",
-    shell: "python scripts/prepare_capacity_factors.py {input} {wildcards.name_layout} {params.zero_tol} {output}"
+    shell: "python scripts/prepare_capacity_factors.py {input.cf} {input.map_shapes_to_nodes} {params.zero_tol} {output}"
 
 rule all_capacity_factors:
     input:
