@@ -271,10 +271,6 @@ colors:
   demand_electricity: "#CC79A7"
 
 model_files:
-  nodes_area.parquet:
-    schema: Nodes
-    scaling:
-      available_area: area
   links.parquet:
     schema: Links
     scaling:
@@ -282,11 +278,11 @@ model_files:
       flow_cap_min: power
   techs.parquet:
     schema: Techs
-  flow_cap_min.parquet:
+  powerplants_combined.parquet:
     schema: Techs
     scaling:
       flow_cap_min: power
-  flow_cap_max.parquet:
+  power_potentials_combined.parquet:
     schema: Techs
     scaling:
       flow_cap_max: power
