@@ -3,7 +3,7 @@ import logging
 
 import pandas as pd
 
-from lib.schema import Nodes, Techs, Links, NodeTimeSeries
+from lib.schema import Nodes, Techs, Links, NodeTimeSeries, ConsistentModel
 from lib.utils import configure_logging
 
 
@@ -28,17 +28,26 @@ if __name__ == "__main__":
 
     warnings = False
 
+    model = {
+        "nodes": {},
+        "techs": {},
+        "links": {},
+        "node_time_series": {}
+    }
+
     for file, model_file in snakemake.config["model_files"].items():
         file_path = Path(snakemake.params.base_path) / file
         schema = model_file["schema"]
 
-        try:
-            df = pd.read_parquet(file_path)
-            df = validate_schema(df, schema)
-            logger.info(f"{file_path} is valid according to the '{schema}' schema.")
-        except Exception as e:
-            logger.warning(f"{file_path} failed validation: {e}")
-            warnings = True
+        table = pd.read_parquet(file_path)
+        model[schema][file] = table
+    
+    try:
+        ConsistentModel(**model)
+        logger.info("Model is consistent.")
+    except Exception as e:
+        logger.warning(e)
+        warnings = True
 
     if not warnings:
         with open(snakemake.output[0], "w") as f:

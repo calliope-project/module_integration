@@ -1,23 +1,26 @@
 rule validate_schema:
+    message: "Validate the prepared data against the defined schema."
+    # could instead list all module outputs here (rules.module_area_potentials_prepare.output)
+    # and define the schema in the rule that produces the file.
     input:
         files=expand(
             "results/prepare/{{resolution}}/{model_file}",
-            model_file=list(config["model_files"].keys())
+            model_file=model_files
         )
-    params: base_path="results/prepare/{resolution}"
+    params:
+        base_path="results/prepare/{resolution}"
     log: "results/prepare/{resolution}/validate_schema.log"
     output: "results/prepare/{resolution}/validated.txt"
     script: "../scripts/validate_schema.py"
 
 
 rule apply_scaling:
+    message: "Apply scaling factors to the prepared data for {wildcards.model_file}."
     input: "results/prepare/{resolution}/{model_file}"
     params:
         scaling=lambda wildcards: get_param("scaling", wildcards),
         zero_tol=lambda wildcards: get_param("zero_tol", wildcards)
     output: "results/prepare/{resolution}/scaled/{model_file}"
-    wildcard_constraints:
-        model_file="|".join([mf["file"] for mf in config["model_files"] if "scaling" in mf])
     script: "../scripts/apply_scaling_factors.py"
 
 

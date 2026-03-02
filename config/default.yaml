@@ -261,38 +261,40 @@ scaling-factors:
     distance: 1000 # from km to m (electricity transmission)
 
 model_files:
+  nodes.parquet:
+    schema: nodes
+  techs.parquet:
+    schema: techs
   links.parquet:
-    schema: Links
+    schema: links
     scaling:
       distance: distance
       flow_cap_min: power
-  techs.parquet:
-    schema: Techs
   powerplants_combined.parquet:
-    schema: Techs
+    schema: techs
     scaling:
       flow_cap_min: power
   power_potentials_combined.parquet:
-    schema: Techs
+    schema: techs
     scaling:
       flow_cap_max: power
   combined_demands/demand_combined_sum_base.parquet:
-    schema: NodeTimeSeries
+    schema: node_time_series
     scaling: power
   combined_demands/demand_combined_sum_res_50.parquet:
-    schema: NodeTimeSeries
+    schema: node_time_series
     scaling: power
   combined_demands/demand_combined_sum_res_75.parquet:
-    schema: NodeTimeSeries
+    schema: node_time_series
     scaling: power
   combined_demands/demand_combined_sum_res_90.parquet:
-    schema: NodeTimeSeries
+    schema: node_time_series
     scaling: power
   offshore/wind_offshore/capacityfactors_wind_offshore_3.6MW.parquet:
-    schema: NodeTimeSeries
+    schema: node_time_series
   onshore/wind_onshore/capacityfactors_wind_onshore_3MW.parquet:
-    schema: NodeTimeSeries
+    schema: node_time_series
   onshore/pv_open_field/capacityfactors_pv_open_field_CSi_S.parquet:
-    schema: NodeTimeSeries
+    schema: node_time_series
   onshore/pv_rooftop/capacityfactors_pv_rooftop_CSi_S.parquet:
-    schema: NodeTimeSeries
+    schema: node_time_series
