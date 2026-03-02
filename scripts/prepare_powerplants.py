@@ -26,6 +26,9 @@ def prepare_powerplants(df, techs_land, techs_maritime, map_shapes_to_nodes, ren
     df = df.loc[:, ["nodes"] + list(rename_columns.values())]
     df = df.reset_index(drop=True)
 
+    # groupby and sum total capacities
+    df = df.groupby(["nodes", "techs"], as_index=False).sum()
+
     df.to_parquet(destination, index=False)
 
 
