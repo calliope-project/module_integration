@@ -260,16 +260,6 @@ scaling-factors:
     monetary: 0.1 # from EUR to 1 billion (1e9) EUR
     distance: 1000 # from km to m (electricity transmission)
 
-colors:
-  wind_onshore: "#4addee"
-  wind_offshore: "#0072B2"
-  pv_rooftop: "#cdc24a"
-  pv_open_field: "#F0E442"
-  transmission: "#E69F00"
-  gas_pp: "#D55E00"
-  battery_storage: "#009E73"
-  demand_electricity: "#CC79A7"
-
 model_files:
   links.parquet:
     schema: Links
