@@ -1,0 +1,5 @@
+scenarios:
+  base: ["_base", "solver_setting_2"]
+  res_50: ["_res_50", "solver_setting_2"]
+  res_75: ["_res_75", "solver_setting_2"]
+  res_90: ["_res_90", "solver_setting_2"]

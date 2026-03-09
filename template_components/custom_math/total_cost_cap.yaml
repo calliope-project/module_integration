@@ -1,0 +1,23 @@
+constraints:
+  max_total_cost:
+    equations:
+      - where: "any(cost, over=[nodes, techs, costs])"
+        expression: >-
+          sum(
+            sum(cost, over=[nodes, techs])
+            * objective_cost_weights,
+            over=costs
+          ) + $unmet_demand <= total_cost_cap
+      - where: "NOT any(cost, over=[nodes, techs, costs])"
+        expression: $unmet_demand <= total_cost_cap
+    sub_expressions:
+      unmet_demand:
+        - where: "config.ensure_feasibility=True"
+          expression: >-
+            sum(
+              sum(unmet_demand - unused_supply, over=[carriers, nodes])
+              * timestep_weights,
+              over=timesteps
+            ) * bigM
+        - where: "NOT config.ensure_feasibility=True"
+          expression: "0"

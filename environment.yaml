@@ -1,0 +1,29 @@
+name: module_integration
+channels:
+    - conda-forge/label/calliope_dev
+    - conda-forge
+    - bioconda
+dependencies:
+    - python=3.12
+    - flake8=3.8.3
+    - snakemake-minimal=8.18
+    # - graphviz=2.50.0
+    - calliope=0.7.0dev5
+    - pandas
+    - numpy<2.0.0
+    - xlrd
+    - geopandas
+    - pandera
+    - pyarrow>=19.0.1
+    - xarray
+    - rioxarray
+    - matplotlib
+    - pycountry
+    - jupyter
+    - glpk
+    - pip
+    - pip:
+        - -e ./lib
+        - git+https://github.com/jnnr/gregor.git
+variables:
+    SNAKEMAKE_PROFILE: ./profiles/default

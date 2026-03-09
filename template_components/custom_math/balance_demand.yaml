@@ -1,0 +1,20 @@
+constraints:
+  balance_demand:
+    description: >-
+      Set the upper bound on, or a fixed total of,
+      that a demand technology must dump to its sink in each timestep.
+    foreach: [nodes, techs, carriers, timesteps]
+    where: "base_tech=demand"
+    equations:
+      - where: "sink_use_equals"
+        expression: "flow_in_inc_eff == sink_use_equals * $sink_scaler"
+      - where: "NOT sink_use_equals AND sink_use_max"
+        expression: "flow_in_inc_eff <= sink_use_max * $sink_scaler"
+    sub_expressions:
+      sink_scaler: &sink_scaler
+        - where: "sink_unit=per_area"
+          expression: "area_use"
+        - where: "sink_unit=per_cap"
+          expression: "sum(flow_cap, over=carriers)"
+        - where: "sink_unit=absolute"
+          expression: demand_scaler

@@ -1,0 +1,300 @@
+scope:
+    spatial:
+        lat: [-15.8, 37.]
+        lon: [30., 75.0]
+
+demand_scenario:
+    base:
+        demand_electricity_scaler: 1.0
+        demand_heat_scaler: 0.
+        demand_transport_scaler: 0.
+        demand_industry_scaler: 0.
+        max_fossil_share: 0.7
+    res_50:
+        demand_electricity_scaler: 1.0
+        demand_heat_scaler: 0.25
+        demand_transport_scaler: 0.25
+        demand_industry_scaler: 0.25
+        max_fossil_share: 0.5
+    res_75:
+        demand_electricity_scaler: 1.0
+        demand_heat_scaler: 0.5
+        demand_transport_scaler: 0.5
+        demand_industry_scaler: 0.5
+        max_fossil_share: 0.25
+    res_90:
+        demand_electricity_scaler: 1.0
+        demand_heat_scaler: 1
+        demand_transport_scaler: 1
+        demand_industry_scaler: 1
+        max_fossil_share: 0.1
+
+splits:
+    ESP: ["ESP"]
+    PRT: ["PRT"]
+    ESP_PRT: ["ESP", "PRT"]
+    BGR: ["BGR"]
+
+powerplants:
+  rename_columns:
+    technology: techs
+    output_capacity_mw: flow_cap_min
+
+techs_onshore:
+ - gas_pp
+ - wind_onshore
+ - pv_open_field
+ - pv_rooftop
+ - demand_electricity
+ - battery_storage
+
+techs_offshore: 
+- wind_offshore
+
+
+spatial_scope:
+  NUTS2_ESP_PRT:
+  - ESP11
+  - ESP12
+  - ESP13
+  - ESP21
+  - ESP22
+  - ESP23
+  - ESP24
+  - ESP30
+  - ESP41
+  - ESP42
+  - ESP43
+  - ESP51
+  - ESP52
+  - ESP53
+  - ESP61
+  - ESP62
+  - PRT11
+  - PRT15
+  - PRT16
+  - PRT17
+  - PRT18
+  NUTS2_BGR:
+  - BGR31
+  - BGR32
+  - BGR33
+  - BGR34
+  - BGR41
+  - BGR42
+  NUTS3_ESP_PRT:
+    ['ESP111',
+    'ESP112',
+    'ESP113',
+    'ESP114',
+    'ESP120',
+    'ESP130',
+    'ESP211',
+    'ESP212',
+    'ESP213',
+    'ESP220',
+    'ESP230',
+    'ESP241',
+    'ESP242',
+    'ESP243',
+    'ESP300',
+    'ESP411_1',
+    'ESP412',
+    'ESP413',
+    'ESP414',
+    'ESP415',
+    'ESP416',
+    'ESP417',
+    'ESP419',
+    'ESP421',
+    'ESP422',
+    'ESP423',
+    'ESP424',
+    'ESP425',
+    'ESP431',
+    'ESP432',
+    'ESP511',
+    'ESP512',
+    'ESP513',
+    'ESP514',
+    'ESP521',
+    'ESP522',
+    'ESP523',
+    'ESP531_2',
+    'ESP611',
+    'ESP612',
+    'ESP613',
+    'ESP614',
+    'ESP615',
+    'ESP616',
+    'ESP617',
+    'ESP618',
+    'ESP620',
+    'PRT111',
+    'PRT112',
+    'PRT119',
+    'PRT11A',
+    'PRT11B',
+    'PRT11C',
+    'PRT11D',
+    'PRT11E',
+    'PRT150',
+    'PRT16B',
+    'PRT16D',
+    'PRT16E',
+    'PRT16F',
+    'PRT16G',
+    'PRT16H',
+    'PRT16I',
+    'PRT16J',
+    'PRT170',
+    'PRT181',
+    'PRT184',
+    'PRT185',
+    'PRT186',
+    'PRT187']
+  NUTS3_ESP:
+    ['ESP111',
+    'ESP112',
+    'ESP113',
+    'ESP114',
+    'ESP120',
+    'ESP130',
+    'ESP211',
+    'ESP212',
+    'ESP213',
+    'ESP220',
+    'ESP230',
+    'ESP241',
+    'ESP242',
+    'ESP243',
+    'ESP300',
+    'ESP411_1',
+    'ESP412',
+    'ESP413',
+    'ESP414',
+    'ESP415',
+    'ESP416',
+    'ESP417',
+    'ESP419',
+    'ESP421',
+    'ESP422',
+    'ESP423',
+    'ESP424',
+    'ESP425',
+    'ESP431',
+    'ESP432',
+    'ESP511',
+    'ESP512',
+    'ESP513',
+    'ESP514',
+    'ESP521',
+    'ESP522',
+    'ESP523',
+    'ESP531_2',
+    'ESP611',
+    'ESP612',
+    'ESP613',
+    'ESP614',
+    'ESP615',
+    'ESP616',
+    'ESP617',
+    'ESP618',
+    'ESP620']
+  NUTS3_PRT:
+    ['PRT111',
+    'PRT112',
+    'PRT119',
+    'PRT11A',
+    'PRT11B',
+    'PRT11C',
+    'PRT11D',
+    'PRT11E',
+    'PRT150',
+    'PRT16B',
+    'PRT16D',
+    'PRT16E',
+    'PRT16F',
+    'PRT16G',
+    'PRT16H',
+    'PRT16I',
+    'PRT16J',
+    'PRT170',
+    'PRT181',
+    'PRT184',
+    'PRT185',
+    'PRT186',
+    'PRT187']
+  NUTS3_BGR:
+    ['BGR311_1',
+    'BGR313_1',
+    'BGR314',
+    'BGR321',
+    'BGR322',
+    'BGR323_2',
+    'BGR331_1',
+    'BGR333_1',
+    'BGR341',
+    'BGR342',
+    'BGR343_1',
+    'BGR411',
+    'BGR412',
+    'BGR413',
+    'BGR414',
+    'BGR415',
+    'BGR421',
+    'BGR422_1',
+    'BGR423',
+    'BGR424']
+
+
+capacity_factors:
+    zero_tol: 0.00001 # values smaller than this will be set to zero
+
+zero_tol: 0.00001 # values smaller than this will be set to zero
+
+scaling-factors:
+    # Convert from common units to model units as explained here https://euro-calliope.readthedocs.io/en/stable/model/overview/#units-of-quantities
+    power: 0.00001 # from MW(h) to 100 GW(h)
+    area: 0.0000000001 # from m2 to 10,000 km2
+    monetary: 0.1 # from EUR to 1 billion (1e9) EUR
+    distance: 1000 # from km to m (electricity transmission)
+
+model_files:
+  nodes.parquet:
+    schema: nodes
+  techs.parquet:
+    schema: techs
+  links.parquet:
+    schema: links
+    scaling:
+      distance: distance
+      flow_cap_min: power
+  powerplants_combined.parquet:
+    schema: techs
+    scaling:
+      flow_cap_min: power
+  power_potentials_combined.parquet:
+    schema: techs
+    scaling:
+      flow_cap_max: power
+  combined_demands/demand_combined_sum_base.parquet:
+    schema: node_time_series
+    scaling: power
+  combined_demands/demand_combined_sum_res_50.parquet:
+    schema: node_time_series
+    scaling: power
+  combined_demands/demand_combined_sum_res_75.parquet:
+    schema: node_time_series
+    scaling: power
+  combined_demands/demand_combined_sum_res_90.parquet:
+    schema: node_time_series
+    scaling: power
+  offshore/wind_offshore/capacityfactors_wind_offshore_3.6MW.parquet:
+    schema: node_time_series
+  onshore/wind_onshore/capacityfactors_wind_onshore_3MW.parquet:
+    schema: node_time_series
+  onshore/pv_open_field/capacityfactors_pv_open_field_CSi_S.parquet:
+    schema: node_time_series
+  onshore/pv_rooftop/capacityfactors_pv_rooftop_CSi_S.parquet:
+    schema: node_time_series
