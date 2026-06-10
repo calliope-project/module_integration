@@ -2,14 +2,14 @@
 
 configfile: "config/default.yaml"
 
-PATH_PREPARE = Path("results/prepare/{resolution}")
-PATH_MODELS = "results/models/{resolution}/{template}/{scenario}/"
+PATH_PREPARE = Path("results/prepare/{shape}")
+PATH_MODELS = "results/models/{shape}/{template}/{scenario}/"
 model_files = list(config["model_files"].keys())
 scaled_files = [key for key, value in config["model_files"].items() if "scaling" in value]
 
 wildcard_constraints:
     scenario = "|".join(config["demand_scenario"]),
-    resolution="NUTS0|NUTS2|NUTS3|NUTS3_PRT",
+    shape="NUTS0|NUTS2|NUTS3|NUTS3_PRT",
 
 # module rules
 include: "./rules/0_module_area_potentials.smk"

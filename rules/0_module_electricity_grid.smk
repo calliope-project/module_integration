@@ -68,5 +68,5 @@ rule all_electricity_grid:
     input:
         expand(
             "results/module_electricity_grid/{shape}/results/shapes_clean.parquet",
-            shape=NUTS_LEVELS
+            shape=SHAPES
         )
