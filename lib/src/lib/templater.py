@@ -38,8 +38,11 @@ class Templater:
             raise ValueError(f"Template {name} already exists.")
         self.templates[name] = kwargs
 
-    def parametrise_templates(self):
+    def parametrise_templates(self, load_data=None):
         """Parametrise all templates."""
+        if load_data is None:
+            load_data = lambda path: pd.read_csv(path, index_col=0)
+
         # first, parametrise model
         model = self._parametrise_model()
 
@@ -78,7 +81,7 @@ class Templater:
         data_tables = {}
         for name in required_variables:
             path_data_table = self.data_tables[name]["source"]
-            df = pd.read_csv(path_data_table, index_col=0)
+            df = load_data(path_data_table)
             data_tables[name] = df
 
         # parametrize all templates, passing data and template_config
@@ -89,7 +92,7 @@ class Templater:
 
             parametrise_template(full_path_template, full_path_dest, **data_tables)
 
-    def copy_data_tables(self):
+    def copy_data_tables(self, copy_func=shutil.copy):
         """Copy all data tables listed in the template configuration to the destination."""
         for _, specs in self.data_tables.items():
             source = Path(specs["source"])
@@ -103,7 +106,7 @@ class Templater:
                 print(f"Warning: Target {target} already exists and would be overwritten.")
             else:
                 print(f"Copying {source} to {target}")
-                shutil.copy(source, target)
+                copy_func(source, target)
 
     def _parametrise_model(self):
         """Parametrise the model template."""
