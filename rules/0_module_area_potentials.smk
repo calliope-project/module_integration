@@ -53,9 +53,9 @@ rule area_potentials_all:
 
 rule aggregate_raster_to_poly:
     input:
-        raster="results/module_area_potentials/results/{shape}/area_potential_{techs}.tif",
+        raster="results/module_area_potentials/results/{shape}/area_potential_{tech}.tif",
         polygons="results/prepare/{shape}/shapes.parquet",
-    output: "results/prepare/{shape}/area_potentials/area_potential_{techs}.parquet"
+    output: "results/prepare/{shape}/area_potentials/area_potential_{tech}.parquet"
     shell: "python scripts/aggregate_raster_to_poly.py {input.raster} {input.polygons} {output[0]}"
 
 rule prepare_power_potential:
@@ -82,6 +82,6 @@ rule all_area_potentials:
     message: "Prepare all area potentials data."
     input:
         expand(
-            "results/module_area_potentials/results/NUTS0/area_potential_{techs}.tif",
-            techs=["wind_onshore", "wind_offshore", "pv_open_field", "pv_rooftop"]
+            "results/module_area_potentials/results/NUTS0/area_potential_{tech}.tif",
+            tech=["wind_onshore", "wind_offshore", "pv_open_field", "pv_rooftop"]
         )
