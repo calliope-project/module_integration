@@ -29,3 +29,20 @@ def get_param(param, wildcards):
         raise ValueError(f"Model file '{wildcards.model_file}' is not described in config.")
 
     return config["model_files"][wildcards.model_file].get(param, None)
+
+
+# TODO: cannot have wildcards in target rule.
+rule prepare_package:
+    input:
+        expand("results/prepare/{{resolution}}/{model_file}", model_file=model_files),
+        expand("results/prepare/{{resolution}}/scaled/{model_file}", model_file=scaled_files),
+        "results/prepare/{resolution}/validated.txt"
+
+
+rule zip_prepared:
+    input: rules.prepare_package.input
+    output: "results/prepare/{resolution}.zip"
+    shell:
+        """
+        zip -r results/prepare/{wildcards.resolution}.zip {input}
+        """

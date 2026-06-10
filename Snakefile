@@ -1,7 +1,11 @@
+# from lib.snakemake_utils import update_with_global_config
+
 configfile: "config/default.yaml"
 
 PATH_PREPARE = Path("results/prepare/{resolution}")
 PATH_MODELS = "results/models/{resolution}/{template}/{scenario}/"
+model_files = list(config["model_files"].keys())
+scaled_files = [key for key, value in config["model_files"].items() if "scaling" in value]
 
 wildcard_constraints:
     scenario = "|".join(config["demand_scenario"]),
