@@ -31,11 +31,11 @@ rule input_layout:
     shell: "cp {input} {output}"
 
 rule input_shapes_to_module_pv_wind:
-    message: "Copy the shapes at desired resolution to 'modules_pv_wind'."
-    input: "results/prepare/{resolution}/shapes.parquet"
+    message: "Copy the shapes at desired shape to 'modules_pv_wind'."
+    input: "results/prepare/{shape}/shapes.parquet"
     output:
-        onshore="results/module_pv_wind/resources/user/spatial_units/{resolution}_onshore.parquet",
-        offshore="results/module_pv_wind/resources/user/spatial_units/{resolution}_offshore.parquet"
+        onshore="results/module_pv_wind/resources/user/spatial_units/{shape}_onshore.parquet",
+        offshore="results/module_pv_wind/resources/user/spatial_units/{shape}_offshore.parquet"
     run:
         import geopandas as gpd
         gdf = gpd.read_parquet(input[0])
@@ -54,9 +54,9 @@ rule input_tech_specs:
 rule prepare_capacity_factors:
     message: "Convert the capacity factors to model format."
     input: 
-        cf="results/module_pv_wind/results/era5/{resolution}_{on_or_offshore}/{name_layout}/capacityfactors_{tech}.nc",  # {resolution}/{config['scope']['temporal']['year']}/
-        map_shapes_to_nodes="results/module_electricity_grid/{resolution}/results/map_shapes_to_nodes.parquet",
-    output: "results/prepare/{resolution}/{on_or_offshore}/{name_layout}/capacityfactors_{tech}.parquet"
+        cf="results/module_pv_wind/results/era5/{shape}_{on_or_offshore}/{name_layout}/capacityfactors_{tech}.nc",  # {shape}/{config['scope']['temporal']['year']}/
+        map_shapes_to_nodes="results/module_electricity_grid/{shape}/results/map_shapes_to_nodes.parquet",
+    output: "results/prepare/{shape}/{on_or_offshore}/{name_layout}/capacityfactors_{tech}.parquet"
     params:
         zero_tol = config["capacity_factors"]["zero_tol"]
     wildcard_constraints:
@@ -68,10 +68,10 @@ rule all_capacity_factors:
     input:
         expand(
             [
-                "results/prepare/{resolution}/offshore/wind_offshore/capacityfactors_wind_offshore_3.6MW.parquet",
-                "results/prepare/{resolution}/onshore/pv_open_field/capacityfactors_pv_open_field_CSi_S.parquet",
-                "results/prepare/{resolution}/onshore/pv_rooftop/capacityfactors_pv_rooftop_CSi_S.parquet",
-                "results/prepare/{resolution}/onshore/wind_onshore/capacityfactors_wind_onshore_3MW.parquet",
+                "results/prepare/{shape}/offshore/wind_offshore/capacityfactors_wind_offshore_3.6MW.parquet",
+                "results/prepare/{shape}/onshore/pv_open_field/capacityfactors_pv_open_field_CSi_S.parquet",
+                "results/prepare/{shape}/onshore/pv_rooftop/capacityfactors_pv_rooftop_CSi_S.parquet",
+                "results/prepare/{shape}/onshore/wind_onshore/capacityfactors_wind_onshore_3MW.parquet",
             ],
-            resolution=["NUTS0", "NUTS2", "NUTS3"],
+            shape=["NUTS0", "NUTS2", "NUTS3"],
         )

@@ -16,9 +16,9 @@ rule copy_shapes:
     message:
         "Copy shapes."
     input:
-        "results/prepare/{resolution}/shapes.parquet",
+        "results/prepare/{shape}/shapes.parquet",
     output:
-        "results/module_demand_electricity/resources/user/shapes_{resolution}.parquet",
+        "results/module_demand_electricity/resources/user/shapes_{shape}.parquet",
     run:
         import geopandas as gpd
         gdf = gpd.read_parquet(input[0])
@@ -44,10 +44,10 @@ rule copy_token_entsoe:
 
 rule prepare_demand_electricity:
     input:
-        data="results/module_demand_electricity/results/demand_electricity_{resolution}_MW.parquet",
-        map_shapes_to_nodes="results/module_electricity_grid/{resolution}/results/map_shapes_to_nodes.parquet",
+        data="results/module_demand_electricity/results/demand_electricity_{shape}_MW.parquet",
+        map_shapes_to_nodes="results/module_electricity_grid/{shape}/results/map_shapes_to_nodes.parquet",
     output:
-        "results/prepare/{resolution}/demand_electricity_MW.parquet"
+        "results/prepare/{shape}/demand_electricity_MW.parquet"
     run:
         import pandas as pd
         from lib.data_processing import map_index
@@ -61,6 +61,6 @@ rule prepare_demand_electricity:
 rule all_demand_electricity:
     input:
         expand(
-            "results/module_demand_electricity/results/demand_electricity_{nuts_level}_MW.parquet",
-            nuts_level=["NUTS0", "NUTS2", "NUTS3"],
+            "results/module_demand_electricity/results/demand_electricity_{shape}_MW.parquet",
+            shape=["NUTS0", "NUTS2", "NUTS3"],
         )

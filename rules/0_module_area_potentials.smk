@@ -16,14 +16,14 @@ rule input_shapes:
     message:
         "Move shapes to resources/user."
     input:
-        onshore="results/module_electricity_grid/{resolution}/results/shapes_clean.parquet",
+        "results/module_electricity_grid/{shape}/results/shapes_clean.parquet",
     output:
-        "results/module_area_potentials/resources/user/shapes/{resolution}.parquet",
+        "results/module_area_potentials/resources/user/shapes/{shape}.parquet",
     log:
-        "results/module_area_potentials/logs/input_shapes_{resolution}.log",
+        "results/module_area_potentials/logs/input_shapes_{shape}.log",
     shell:
         """
-        cp "{input.onshore}" "{output}" 2> "{log}"
+        cp "{input}" "{output}" 2> "{log}"
         """
 
 rule input_protected_areas:
@@ -53,29 +53,29 @@ rule area_potentials_all:
 
 rule aggregate_raster_to_poly:
     input:
-        raster="results/module_area_potentials/results/{resolution}/area_potential_{techs}.tif",
-        polygons="results/prepare/{resolution}/shapes.parquet",
-    output: "results/prepare/{resolution}/area_potentials/area_potential_{techs}.parquet"
+        raster="results/module_area_potentials/results/{shape}/area_potential_{techs}.tif",
+        polygons="results/prepare/{shape}/shapes.parquet",
+    output: "results/prepare/{shape}/area_potentials/area_potential_{techs}.parquet"
     shell: "python scripts/aggregate_raster_to_poly.py {input.raster} {input.polygons} {output[0]}"
 
 rule prepare_power_potential:
     input:
-        area_potential="results/prepare/{resolution}/area_potentials/area_potential_{tech}.parquet",
+        area_potential="results/prepare/{shape}/area_potentials/area_potential_{tech}.parquet",
         power_densities="data/prepare/power_densities/power_densities.csv",
-        shapes="results/prepare/{resolution}/shapes.parquet",
-        map_shapes_to_nodes="results/module_electricity_grid/{resolution}/results/map_shapes_to_nodes.parquet",
+        shapes="results/prepare/{shape}/shapes.parquet",
+        map_shapes_to_nodes="results/module_electricity_grid/{shape}/results/map_shapes_to_nodes.parquet",
     output:
-       "results/prepare/{resolution}/power_potentials/power_potential_{tech}.parquet",
+       "results/prepare/{shape}/power_potentials/power_potential_{tech}.parquet",
     script: "../scripts/prepare_power_potential.py"
 
 rule combine_power_potentials:
     input:
         expand(
-            "results/prepare/{{resolution}}/power_potentials/power_potential_{tech}.parquet",
+            "results/prepare/{{shape}}/power_potentials/power_potential_{tech}.parquet",
             tech=["pv_rooftop", "pv_open_field", "wind_onshore", "wind_offshore"]
         )
     output:
-        "results/prepare/{resolution}/power_potentials_combined.parquet",
+        "results/prepare/{shape}/power_potentials_combined.parquet",
     script: "../scripts/combine_power_potentials.py"
 
 rule all_area_potentials:

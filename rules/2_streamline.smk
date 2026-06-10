@@ -4,23 +4,23 @@ rule validate_schema:
     # and define the schema in the rule that produces the file.
     input:
         files=expand(
-            "results/prepare/{{resolution}}/{model_file}",
+            "results/prepare/{{shape}}/{model_file}",
             model_file=model_files
         )
     params:
-        base_path="results/prepare/{resolution}"
-    log: "results/prepare/{resolution}/validate_schema.log"
-    output: "results/prepare/{resolution}/validated.txt"
+        base_path="results/prepare/{shape}"
+    log: "results/prepare/{shape}/validate_schema.log"
+    output: "results/prepare/{shape}/validated.txt"
     script: "../scripts/validate_schema.py"
 
 
 rule apply_scaling:
     message: "Apply scaling factors to the prepared data for {wildcards.model_file}."
-    input: "results/prepare/{resolution}/{model_file}"
+    input: "results/prepare/{shape}/{model_file}"
     params:
         scaling=lambda wildcards: get_param("scaling", wildcards),
         zero_tol=lambda wildcards: get_param("zero_tol", wildcards)
-    output: "results/prepare/{resolution}/scaled/{model_file}"
+    output: "results/prepare/{shape}/scaled/{model_file}"
     script: "../scripts/apply_scaling_factors.py"
 
 
@@ -34,15 +34,15 @@ def get_param(param, wildcards):
 # TODO: cannot have wildcards in target rule.
 rule prepare_package:
     input:
-        expand("results/prepare/{{resolution}}/{model_file}", model_file=model_files),
-        expand("results/prepare/{{resolution}}/scaled/{model_file}", model_file=scaled_files),
-        "results/prepare/{resolution}/validated.txt"
+        expand("results/prepare/{{shape}}/{model_file}", model_file=model_files),
+        expand("results/prepare/{{shape}}/scaled/{model_file}", model_file=scaled_files),
+        "results/prepare/{shape}/validated.txt"
 
 
 rule zip_prepared:
     input: rules.prepare_package.input
-    output: "results/prepare/{resolution}.zip"
+    output: "results/prepare/{shape}.zip"
     shell:
         """
-        zip -r results/prepare/{wildcards.resolution}.zip {input}
+        zip -r results/prepare/{wildcards.shape}.zip {input}
         """

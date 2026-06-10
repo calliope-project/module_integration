@@ -16,11 +16,11 @@ use rule * from module_powerplants as module_powerplants_*
 rule input_shapes_powerplants:
     message: "Input shapes for the powerplants module."
     input:
-        "results/prepare/{resolution}/shapes.parquet",
+        "results/prepare/{shape}/shapes.parquet",
     output:
-        "results/module_powerplants/resources/user/{resolution}/shapes.parquet",
+        "results/module_powerplants/resources/user/{shape}/shapes.parquet",
     log:
-        "results/module_powerplants/logs/input_shapes_{resolution}.log",
+        "results/module_powerplants/logs/input_shapes_{shape}.log",
     conda:
         "../envs/shell.yaml"
     shell:
@@ -49,10 +49,10 @@ rule input_potentials_pv_rooftop:
         potential="results/module_area_potentials/results/NUTS0/area_potential_pv_rooftop.tif",
         countries="results/module_electricity_grid/NUTS0/results/shapes_clean.parquet",
     output:
-        potential="results/module_powerplants/resources/user/proxies/rooftop_pv/{resolution}.tif",
-        countries="results/module_powerplants/resources/user/borders/{resolution}.parquet",
+        potential="results/module_powerplants/resources/user/proxies/rooftop_pv/{shape}.tif",
+        countries="results/module_powerplants/resources/user/borders/{shape}.parquet",
     log:
-        "results/module_powerplants/logs/input_potentials_pv_rooftop_{resolution}.log",
+        "results/module_powerplants/logs/input_potentials_pv_rooftop_{shape}.log",
     conda:
         "../envs/shell.yaml"
     shell:
@@ -63,21 +63,21 @@ rule input_potentials_pv_rooftop:
 
 rule prepare_powerplants:
     input:
-        data="results/module_powerplants/results/{resolution}/aggregated/adjusted/{category}.parquet",
-        map_shapes_to_nodes="results/module_electricity_grid/{resolution}/results/map_shapes_to_nodes.parquet",
-        shapes="results/prepare/{resolution}/shapes.parquet",
+        data="results/module_powerplants/results/{shape}/aggregated/adjusted/{category}.parquet",
+        map_shapes_to_nodes="results/module_electricity_grid/{shape}/results/map_shapes_to_nodes.parquet",
+        shapes="results/prepare/{shape}/shapes.parquet",
     output:
-        "results/prepare/{resolution}/powerplants/powerplants_{category}.parquet"
+        "results/prepare/{shape}/powerplants/powerplants_{category}.parquet"
     script: "../scripts/prepare_powerplants.py"
 
 rule combine_powerplants:
     input:
         categories=expand(
-            "results/prepare/{{resolution}}/powerplants/powerplants_{category}.parquet",
+            "results/prepare/{{shape}}/powerplants/powerplants_{category}.parquet",
             category=["bioenergy", "fossil", "geothermal", "hydropower", "nuclear", "wind"]
         ),
     output:
-        "results/prepare/{resolution}/powerplants_combined.parquet"
+        "results/prepare/{shape}/powerplants_combined.parquet"
     script: "../scripts/combine_powerplants.py"
 
 rule all_powerplants:

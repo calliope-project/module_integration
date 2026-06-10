@@ -11,7 +11,7 @@ rule construct_model:
         pv_open_field=PATH_PREPARE / "onshore/pv_open_field/capacityfactors_pv_open_field_CSi_S.parquet",
         pv_rooftop=PATH_PREPARE / "onshore/pv_rooftop/capacityfactors_pv_rooftop_CSi_S.parquet",
         model="template_components/model_{template}.yaml",
-        validated="results/prepare/{resolution}/validated.txt"
+        validated="results/prepare/{shape}/validated.txt"
     output:
         destination=directory(PATH_MODELS + "construct"),
         model_file=PATH_MODELS + "construct/model.yaml",
