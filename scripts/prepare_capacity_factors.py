@@ -20,7 +20,7 @@ def main(capacityfactors, zero_tol, map_shapes_to_nodes, destination):
 
     # map shapes to nodes
     df = map_index(df, map_shapes_to_nodes, axis=1)
-    df.index.name = "nodes"
+    df.columns.name = "nodes"
 
     # set values smaller than zero_tol to zero
     zero_tol = float(zero_tol)
