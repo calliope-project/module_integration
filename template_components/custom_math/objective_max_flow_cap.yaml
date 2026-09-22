@@ -1,0 +1,11 @@
+objectives:
+  max_flow_cap_techs:
+    description: "Maximise the flow_cap of a given technology"
+    equations:
+    - where: "flow_cap AND carriers=electricity"
+      expression: "sum(flow_cap[techs=$techs_maximise, carriers=electricity], over=[nodes, carriers, techs])"
+    slices:
+      techs_maximise: 
+      - expression: techs_maximise
+    sense: maximise
+    active: true

@@ -1,0 +1,13 @@
+parameters:
+  objective_cost_weights:
+    data: [1, 0]
+    index: [monetary, emissions]
+    dims: costs
+  # `bigM` sets the scale of unmet demand, which cannot be too high, otherwise the optimisation will not converge
+  bigM: 1e6
+  max_fossil_share: 0.5
+  demand_scaler: 1
+  emission_cost_weights:
+    data: [1, 0, 0]
+    index: [emissions, monetary, non_monetary]
+    dims: costs

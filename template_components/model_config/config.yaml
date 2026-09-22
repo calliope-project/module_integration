@@ -1,0 +1,23 @@
+config:
+  init:
+    name: min_cost
+    calliope_version: 0.7.0.dev5
+    time_subset: ["2018-01-01", "2018-12-31"]
+
+  build:
+    mode: plan # Choices: plan, operate
+    ensure_feasibility: false # Switching on unmet demand
+    add_math: [
+      # "custom_math/emission_cap.yaml",
+      "custom_math/fossil_share_cap.yaml",
+      "custom_math/balance_demand.yaml",
+      # "custom_math/max_import_share.yaml",
+    ]
+
+  solve:
+    solver: gurobi
+    zero_threshold: 1e-8  # 100 GW * 1e-8 = 1 kW
+    # solver_options:
+    #   Crossover: 0
+    #   Method: 2
+  

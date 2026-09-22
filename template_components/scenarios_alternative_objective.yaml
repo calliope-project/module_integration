@@ -1,0 +1,16 @@
+scenarios:
+  base_slack_01: ["_base_slack_01", "solver_setting_2"]
+  base_slack_05: ["_base_slack_05", "solver_setting_2"]
+  base_slack_10: ["_base_slack_10", "solver_setting_2"]
+
+  res_50_slack_01: ["_res_50_slack_01", "solver_setting_2"]
+  res_50_slack_05: ["_res_50_slack_05", "solver_setting_2"]
+  res_50_slack_10: ["_res_50_slack_10", "solver_setting_2"]
+
+  res_75_slack_01: ["_res_75_slack_01", "solver_setting_2"]
+  res_75_slack_05: ["_res_75_slack_05", "solver_setting_2"]
+  res_75_slack_10: ["_res_75_slack_10", "solver_setting_2"]
+
+  res_90_slack_01: ["_res_90_slack_01", "solver_setting_2"]
+  res_90_slack_05: ["_res_90_slack_05", "solver_setting_2"]
+  res_90_slack_10: ["_res_90_slack_10", "solver_setting_2"]

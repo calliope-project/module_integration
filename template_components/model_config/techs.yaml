@@ -1,0 +1,144 @@
+templates:
+  interest_rate_setter:
+    cost_interest_rate:
+      data: 0.073  # average wind onshore WACC OECD from [@Steffen:2019]
+      index: monetary
+      dims: costs
+
+  power_lines:
+    name: "Electrical power distribution"
+    color: "#6783E3"
+    base_tech: transmission
+    template: interest_rate_setter
+    carrier_in: electricity
+    carrier_out: electricity
+    flow_out_eff_per_distance: 0.99999995  # Set to 1 to avoid loop flows. Can alternatively use flow_out_eff_per_distance
+    lifetime: 60  # euro-calliope assumption TODO source?
+    # TODO set om_annual_investment_fraction: 0.015
+    cost_flow_cap_per_distance:
+      data: 9e-05  # 10.000 EUR/(MW*m) TODO source?
+      index: monetary
+      dims: costs
+    cost_flow_out:
+      data: 1e-6  # 10.000 EUR/(MW*m) assumption to avoid loop flows
+      index: monetary
+      dims: costs
+
+techs:
+  pv_open_field:
+    name: "Open-field PV"
+    color: "#F9D956"
+    base_tech: supply
+    template: interest_rate_setter
+    carrier_out: electricity
+    source_unit: per_cap
+    area_use_per_flow_cap: 0.125  # 100 km2/GW or 0.1 km2/MW [@Gagnon:2016][@Klauser:2016][@Wirth:2017]
+    # flow_out_parasitic_eff: 0.85 # TODO inverter losses
+    lifetime: 25  # [Troendle et al 2020]
+    cost_flow_cap:
+      data: 52.0  # 10000 EUR/MW [Troendle et al 2020]
+      index: monetary
+      dims: costs
+
+  pv_rooftop:
+    name: "Rooftop PV"
+    color: "#F9D956"
+    base_tech: supply
+    template: interest_rate_setter
+    carrier_out: electricity
+    source_unit: per_cap
+    # area_use_per_flow_cap: 0.0625  # 100 km2/GW or 0.1 km2/MW [@Gagnon:2016][@Klauser:2016][@Wirth:2017]
+    # flow_out_parasitic_eff: 0.85 # TODO inverter losses
+    lifetime: 25  # [Troendle et al 2020]
+    cost_flow_cap:
+      data: 88.0  # 10000 EUR/MW [Troendle et al 2020]
+      index: monetary
+      dims: costs
+
+  wind_onshore:
+    name: "Onshore wind"
+    color: "#56CBF9FF"
+    base_tech: supply
+    template: interest_rate_setter
+    carrier_out: electricity
+    source_unit: per_cap
+    area_use_per_flow_cap: 1.25 # 100 km2/GW [@EuropeanEnvironmentAgency:2009]
+    # flow_out_parasitic_eff: 0.85 # TODO
+    lifetime: 25  # [Troendle et al 2020]
+    cost_flow_cap:
+      data: 110.0  # [Troendle et al 2020]
+      index: monetary
+      dims: costs
+
+  wind_offshore:
+    name: "Offshore wind"
+    color: "#56CBF9FF"
+    base_tech: supply
+    template: interest_rate_setter
+    carrier_out: electricity
+    source_unit: per_cap
+    area_use_per_flow_cap: 0.666666667 # 100 km2/GW [@EuropeanEnvironmentAgency:2009]
+    # flow_out_parasitic_eff: 0.85 # TODO
+    lifetime: 30  # [Troendle et al 2020]
+    cost_flow_cap:
+      data: 228.0  # 10000 EUR/MW [Troendle et al 2020]
+      index: monetary
+      dims: costs
+
+  demand_electricity:
+    name: "Electrical demand"
+    color: "#072486"
+    base_tech: demand
+    carrier_in: electricity
+  
+  gas_pp:
+    name: "Gas power plant"
+    color: "#FFA07A"
+    base_tech: supply
+    template: interest_rate_setter
+    carrier_out: electricity
+    flow_out_eff: 0.6  # Danish Energy Agency, technology_data_for_el_and_dh.xlsx
+    lifetime: 25  # Danish Energy Agency, technology_data_for_el_and_dh.xlsx
+    cost_flow_cap:
+      data: 84.6  # 10000 EUR/MW Danish Energy Agency, technology_data_for_el_and_dh.xlsx
+      index: monetary
+      dims: costs
+    cost_flow_in:
+      data: [
+        0.006,  # 10000 EUR/MWh TODO reference
+        0.02034,  # GtCO2eq/100GWh
+      ]
+      index: [monetary, emissions]
+      dims: costs
+
+  battery_storage:
+    name: "Storage"
+    color: "#FFD700"
+    base_tech: storage
+    template: interest_rate_setter
+    carrier_in: electricity
+    carrier_out: electricity
+    flow_out_eff: 0.95  # TODO source
+    flow_in_eff: 0.95  # TODO source
+    storage_loss: 0
+    lifetime: 10
+    cost_storage_cap:
+      data: 10.123820000000002 # (10,000 EUR2015/MWh), 802 $2015
+      index: monetary
+      dims: costs
+    cost_flow_cap:
+      data: 8.558536000000002 # (10,000 EUR2015/MW), 678 $2015
+      index: monetary
+      dims: costs
+
+  import_neighbour:
+    name: "Import neighbour"
+    color: "#FF8C00"
+    base_tech: supply
+    carrier_out: electricity
+
+  export_neighbour:
+    name: "Export neighbour"
+    color: "#FF8C00"
+    base_tech: demand
+    carrier_in: electricity

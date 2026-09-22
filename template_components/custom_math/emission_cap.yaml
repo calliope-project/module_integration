@@ -1,0 +1,7 @@
+constraints:
+  max_total_emissions:
+    foreach: [costs]
+    where: "emission_cost_weights>0"
+    equations:
+    - where: any(cost, over=[nodes, techs, costs])
+      expression: "sum(sum(cost, over=[nodes, techs]) * emission_cost_weights, over=costs) <= total_emission_cap"

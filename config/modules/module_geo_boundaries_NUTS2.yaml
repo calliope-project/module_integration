@@ -1,0 +1,176 @@
+module_geo_boundaries_NUTS2:
+  overture_release: "latest"
+  crs:
+    projected: "epsg:3857"
+    geographic: "epsg:4326"
+  countries:
+    "AUT":
+      subtype: "2"
+      source: "nuts"
+      resolution: "01M"
+      year: 2024
+    "BEL":
+      subtype: "2"
+      source: "nuts"
+      resolution: "01M"
+      year: 2024
+    "BGR":
+      subtype: "2"
+      source: "nuts"
+      resolution: "01M"
+      year: 2024
+    "HRV":
+      subtype: "2"
+      source: "nuts"
+      resolution: "01M"
+      year: 2024
+    "CYP":
+      subtype: "2"
+      source: "nuts"
+      resolution: "01M"
+      year: 2024
+    "CZE":
+      subtype: "2"
+      source: "nuts"
+      resolution: "01M"
+      year: 2024
+    "DNK":
+      subtype: "2"
+      source: "nuts"
+      resolution: 03M
+      year: 2024
+    "EST":
+      subtype: "2"
+      source: "nuts"
+      resolution: "01M"
+      year: 2024
+    "FIN":
+      subtype: "2"
+      source: "nuts"
+      resolution: "01M"
+      year: 2024
+    "FRA":
+      subtype: "2"
+      source: "nuts"
+      resolution: "01M"
+      year: 2024
+    "DEU":
+      subtype: "2"
+      source: "nuts"
+      resolution: "01M"
+      year: 2024
+    "GRC":
+      subtype: "2"
+      source: "nuts"
+      resolution: "01M"
+      year: 2024
+    "HUN":
+      subtype: "2"
+      source: "nuts"
+      resolution: "01M"
+      year: 2024
+    "IRL":
+      subtype: "3"
+      source: "nuts"
+      resolution: "01M"
+      year: 2024
+    "ITA":
+      subtype: "2"
+      source: "nuts"
+      resolution: "01M"
+      year: 2024
+    "LVA":
+      subtype: "2"
+      source: "nuts"
+      resolution: "01M"
+      year: 2024
+    "LTU":
+      subtype: "2"
+      source: "nuts"
+      resolution: "01M"
+      year: 2024
+    "LUX":
+      subtype: "2"
+      source: "nuts"
+      resolution: "01M"
+      year: 2024
+    "NLD":
+      subtype: "3"
+      source: "nuts"
+      resolution: "01M"
+      year: 2024
+    "POL":
+      subtype: "2"
+      source: "nuts"
+      resolution: "01M"
+      year: 2024
+    "PRT":
+      subtype: "2"
+      source: "nuts"
+      resolution: 03M
+      year: 2024
+    "ROU":
+      subtype: "2"
+      source: "nuts"
+      resolution: "01M"
+      year: 2024
+    "SVK":
+      subtype: "2"
+      source: "nuts"
+      resolution: "01M"
+      year: 2024
+    "SVN":
+      subtype: "2"
+      source: "nuts"
+      resolution: "01M"
+      year: 2024
+    "ESP":
+      subtype: "2"
+      source: "nuts"
+      resolution: "01M"
+      year: 2024
+    "SWE":
+      subtype: "2"
+      source: "nuts"
+      resolution: "01M"
+      year: 2024
+    "GBR":
+      subtype: "2"
+      source: "nuts"
+      resolution: "01M"
+      year: 2021  # In 2024, GBR is missing
+    "ALB":
+      subtype: "2"
+      source: "nuts"
+      resolution: "01M"
+      year: 2024
+    "BIH":
+      subtype: "2"
+      source: "nuts"
+      resolution: "01M"
+      year: 2024
+    "MKD":
+      subtype: "2"
+      source: "nuts"
+      resolution: "01M"
+      year: 2024
+    "MNE":
+      subtype: "2"
+      source: "nuts"
+      resolution: "01M"
+      year: 2024
+    "NOR":
+      subtype: "2"
+      source: "nuts"
+      resolution: "01M"
+      year: 2024
+    "SRB":
+      subtype: "2"
+      source: "nuts"
+      resolution: "01M"
+      year: 2024
+    "CHE":
+      subtype: "2"
+      source: "nuts"
+      resolution: "01M"
+      year: 2024

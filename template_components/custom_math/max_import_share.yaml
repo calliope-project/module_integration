@@ -1,0 +1,9 @@
+constraints:
+  generation_demand_ratio:
+    description: Fix the ratio of generation to demand for each node_group.
+    foreach: [nodes]
+    equations:
+      - expression: sum(flow_out[carriers=electricity, techs=$generation_techs], over=[techs, timesteps]) >= sum(flow_in[carriers=electricity, techs=demand_electricity], over=[timesteps])
+    slices:
+        generation_techs:
+            - expression: "[wind_onshore, wind_offshore, pv_rooftop, pv_open_field, gas_pp]"

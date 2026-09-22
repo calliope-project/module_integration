@@ -1,0 +1,11 @@
+objectives:
+  min_flow_cap_techs:
+    description: "Minimise the flow_cap of a given technology"
+    equations:
+    - where: "flow_cap AND carriers=electricity"
+      expression: "sum(flow_cap[techs=$techs_minimise, carriers=electricity], over=[nodes, carriers, techs])"
+    slices:
+      techs_minimise: 
+      - expression: techs_minimise
+    sense: minimise
+    active: true

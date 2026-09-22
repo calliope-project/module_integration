@@ -1,0 +1,15 @@
+[project]
+name = "lib"
+version = "0.0.1"
+requires-python = ">=3.8"
+description = "Library for wind value maps"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+lib = ["*.csv", "*.yaml"]

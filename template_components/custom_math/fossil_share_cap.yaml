@@ -1,0 +1,8 @@
+constraints:
+  fossil_share_cap:
+    description: Fix the maximum share of gas_pp generation compared to total generation
+    equations:
+      - expression: sum(flow_out[carriers=electricity, techs=gas_pp], over=[timesteps,nodes]) <= max_fossil_share * sum(flow_out[carriers=electricity, techs=$gen_techs], over=[techs, timesteps, nodes])
+    slices:
+        gen_techs:
+            - expression: "[wind_onshore, wind_offshore, pv_rooftop, pv_open_field, gas_pp]"
