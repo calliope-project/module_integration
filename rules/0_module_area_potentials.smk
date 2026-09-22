@@ -5,7 +5,7 @@ module module_area_potentials:
         github(
             "calliope-project/module_area_potentials",
             path="workflow/Snakefile",
-            tag="36b6091",
+            tag="dd34d21",
         )
     config: config["module_area_potentials"]
     prefix: "results/module_area_potentials"
@@ -16,7 +16,7 @@ rule input_shapes:
     message:
         "Move shapes to resources/user."
     input:
-        "results/module_electricity_grid/{shape}/results/shapes_clean.parquet",
+        "results/prepare/{shape}/shapes.parquet",
     output:
         "results/module_area_potentials/resources/user/shapes/{shape}.parquet",
     log:

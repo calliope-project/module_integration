@@ -5,7 +5,7 @@ module module_pv_wind:
         github(
             "calliope-project/module_pv_wind",
             path="workflow/Snakefile",
-            tag="f16dfe3",
+            tag="7937e29",
         )
     config: config["module_pv_wind"]
     prefix: "results/module_pv_wind"
@@ -19,14 +19,14 @@ wildcard_constraints:
 rule input_cutout:
     message: "Copy the cutout 'modules_pv_wind'."
     input: "data/module_pv_wind/cutout/era5.nc"
-    output: "results/module_pv_wind/resources/user/cutout_era5.nc"
+    output: "results/module_pv_wind/resources/user/cutouts_era5.nc"
     conda: "../envs/shell.yaml"
     shell: "cp {input} {output}"
 
 rule input_layout:
     message: "Copy the layout to 'modules_pv_wind'."
-    input: "results/prepare/raster/area_potential_{name_layout}.tif"
-    output: "results/module_pv_wind/resources/user/layout/{name_layout}.tif"
+    input: "results/module_area_potentials/results/NUTS0/area_potential_{tech}.tif"
+    output: "results/module_pv_wind/resources/user/layouts_{tech}.tif"
     conda: "../envs/shell.yaml"
     shell: "cp {input} {output}"
 
@@ -34,8 +34,8 @@ rule input_shapes_to_module_pv_wind:
     message: "Copy the shapes at desired shape to 'modules_pv_wind'."
     input: "results/prepare/{shape}/shapes.parquet"
     output:
-        onshore="results/module_pv_wind/resources/user/spatial_units/{shape}_onshore.parquet",
-        offshore="results/module_pv_wind/resources/user/spatial_units/{shape}_offshore.parquet"
+        onshore="results/module_pv_wind/resources/user/shapes_{shape}_onshore.parquet",
+        offshore="results/module_pv_wind/resources/user/shapes_{shape}_offshore.parquet"
     run:
         import geopandas as gpd
         gdf = gpd.read_parquet(input[0])
@@ -45,7 +45,7 @@ rule input_shapes_to_module_pv_wind:
 rule input_tech_specs:
     message: "Copy the tech_specs to 'modules_pv_wind'."
     input: "data/module_pv_wind/tech_specs/{tech}.yaml"
-    output: "results/module_pv_wind/resources/user/tech_specs/{tech}.yaml"
+    output: "results/module_pv_wind/resources/user/tech_specs_{tech}.yaml"
     conda: "../envs/shell.yaml"
     wildcard_constraints:
         tech = "wind_offshore_3.6MW|wind_onshore_3MW|pv_rooftop_CSi_S|pv_rooftop_CSi_W|pv_open_field_CSi_S",
